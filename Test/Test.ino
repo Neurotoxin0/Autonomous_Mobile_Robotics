@@ -3,6 +3,8 @@
 #define Left_Motor_PWM 5
 #define Right_Motor_Ctrl 2
 #define Right_Motor_PWM 6
+#define turning_speed 150 // will turn how many angle in a sec, with speed 200
+#define turning_time 2.4  // will cost how many time to turn 360 degrees, with speed 200
 
 void setup() 
 {
@@ -16,14 +18,14 @@ void setup()
 void loop() 
 {
   //left
-  digitalWrite(ML_Ctrl,LOW);//set the direction control pin of B motor to LOW
-  analogWrite(ML_PWM,200);//set the PWM control speed of B motor to 200
-  digitalWrite(MR_Ctrl,HIGH);//set the direction control pin of A motor to HIGH
-  analogWrite(MR_PWM,200);// set the PWM control speed of A motor to 200
+  digitalWrite(Left_Motor_Ctrl,LOW);
+  analogWrite(Left_Motor_PWM,200);
+  digitalWrite(Right_Motor_Ctrl,HIGH);
+  analogWrite(Right_Motor_PWM,200);
   //stop
-  delay(5000);//delay in 2s
-  analogWrite(ML_PWM,0);//set the PWM control speed of B motor to 0
-  analogWrite(MR_PWM,0);//set the PWM control speed of A motor to 0
+  delay(300);//delay in 2s  
+  analogWrite(Left_Motor_PWM,0);
+  analogWrite(Right_Motor_PWM,0);
   
   delay(5000);
 }
