@@ -1,4 +1,5 @@
-#define turning_speed 180 // will turn how many angle in a sec, with speed 200
+#define Turning_Speed 200
+// 350~400 ms for ~45 degrees with speed 200
 
 void stop_movement()
 {
@@ -22,18 +23,22 @@ void move_back(int speed)
   analogWrite(Right_Motor_PWM,speed);
 }
 
-void left_turn(int angle)
+void left_turn(int time)
 {
-  digitalWrite(Left_Motor_Ctrl,HIGH);
-  analogWrite(Left_Motor_PWM,speed);
+  digitalWrite(Left_Motor_Ctrl,LOW);
+  analogWrite(Left_Motor_PWM,Turning_Speed);
   digitalWrite(Right_Motor_Ctrl,HIGH);
-  analogWrite(Right_Motor_PWM,speed);
+  analogWrite(Right_Motor_PWM,Turning_Speed);
+  delay(time);
+  stop_movement();
 }
 
-void right_turn(int angle)
+void right_turn(int time)
 {
   digitalWrite(Left_Motor_Ctrl,HIGH);
-  analogWrite(Left_Motor_PWM,speed);
-  digitalWrite(Right_Motor_Ctrl,HIGH);
-  analogWrite(Right_Motor_PWM,speed);
+  analogWrite(Left_Motor_PWM,Turning_Speed);
+  digitalWrite(Right_Motor_Ctrl,LOW);
+  analogWrite(Right_Motor_PWM,Turning_Speed);
+  delay(time);
+  stop_movement();
 }
