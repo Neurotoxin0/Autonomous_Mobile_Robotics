@@ -34,10 +34,13 @@ Servo servo;
 #define Ultrasonic_Send 13
 SR04 sr04 = SR04(Ultrasonic_Send,Ultrasonic_Receive);
 
+// other global params
+int tries;
+
 void setup() 
 {
   // initialize serial communication
-  Serial.begin(9600); 
+  Serial.begin(1200); 
   
   // motors
   pinMode(Left_Motor_Ctrl, OUTPUT);
@@ -63,19 +66,30 @@ void setup()
 
 void loop()
 {
-  //while ( safe() && following_line() && following_light() ) { move_front(80); }
-  while (safe()) { move_front(80); }
+  Serial.print("\n");
+  
+  //while ( safe() && following_line() ) { move_front(80); }
+  /*while (safe()) { move_front(80); }
   stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
   if (collision_detected()) { avoid_object(); }
-  //if (not following_line()) { adjust_line_tracking(); }
-  //if (not following_light()) { adjust_light_following(); }
+  */
+  if (not following_line()) 
+  { 
+    if (not adjust_line_tracking()) { exit(0); };  // if failed to adjust: exit
+  }
+  /*
+  if (not following_light()) 
+  { 
+    if (not adjust_light_following()) { exit(0); }; 
+  }
+  */
 }
 
 bool safe() 
 { 
-  bool result = fall_detected() || collision_detected();
+  bool result = not ( fall_detected() || collision_detected() );
   Serial.print("Safe Sataus: ");
   Serial.print(result);
   Serial.print("\n");
