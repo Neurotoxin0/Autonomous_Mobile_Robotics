@@ -1,15 +1,15 @@
 bool fall_detected()
 { 
-  //return (digitalRead(Left_Edge_Sensor)) || (digitalRead(Right_Edge_Sensor));
-  return front_central_fall_detection(); 
+  return (digitalRead(Left_Edge_Sensor)) || (digitalRead(Right_Edge_Sensor));
+  //return front_central_fall_detection(); 
 }
 
 void avoid_fall()
 {
   Serial.print("avoid_fall()\n");
   
-  //if ( digitalRead(Left_Edge_Sensor)() && digitalRead(Right_Edge_Sensor) )
-  if (front_central_fall_detection())
+  if ( digitalRead(Left_Edge_Sensor) && digitalRead(Right_Edge_Sensor) )
+  //if (front_central_fall_detection())
   {
       move_back(200);
       delay(100);
