@@ -10,15 +10,18 @@ Xinyu Ma 500943173
 #define Right_Motor_Ctrl 2
 #define Right_Motor_PWM 6
 const int Default_Turning_Speed = 200;  // 350 ms for ~90 degrees with speed 200
+const int Slow_Turning_Speed = 80;
 
-// fall & line tracking sensor
-#define Front_Central_Left_Sensor 11
-#define Front_Central_Middle_Sensor 7
-#define Front_Central_Right_Sensor 8
-//#define Front_Left_Sensor 0
-//#define Front_Right_Sensor 0
-//#define Back_Left__Sensor 0
-//#define Back_Right_Sensor 0
+// line tracking & edge sensor
+#define Left_Line_Sensor 11
+#define Central_Line_Sensor 7
+#define Right_Line_Sensor 8
+#define Left_Edge_Sensor 17  // A3
+#define Right_Edge_Sensor 14 // A0
+
+// light sensor
+#define Left_Light_Sensor 15  // A1
+#define Right_Light_Sensor 16 // A2
 
 // servo
 #include <Servo.h>
@@ -43,13 +46,15 @@ void setup()
   pinMode(Right_Motor_PWM, OUTPUT);
 
   // fall & line tracking sensor
-  pinMode(Front_Central_Left_Sensor, INPUT);
-  pinMode(Front_Central_Middle_Sensor, INPUT);
-  pinMode(Front_Central_Right_Sensor, INPUT);
-  //pinMode(Front_Left_Sensor, INPUT);
-  //pinMode(Front_Right_Sensor, INPUT);
-  //pinMode(Back_Left__Sensor, INPUT);
-  //pinMode(Back_Right_Sensor, INPUT);
+  pinMode(Left_Line_Sensor, INPUT);
+  pinMode(Central_Line_Sensor, INPUT);
+  pinMode(Right_Line_Sensor, INPUT);
+  pinMode(Left_Edge_Sensor, INPUT);
+  pinMode(Right_Edge_Sensor, INPUT);
+
+  // light sensor
+  pinMode(Left_Light_Sensor, INPUT);
+  pinMode(Right_Light_Sensor, INPUT);
   
   // servo
   servo_init();
@@ -58,12 +63,14 @@ void setup()
 
 void loop()
 {
-  while ( safe() /*&& on_track()*/) { move_front(80); }
+  //while ( safe() && following_line() && following_light() ) { move_front(80); }
+  while (safe()) { move_front(80); }
   stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
   if (collision_detected()) { avoid_object(); }
-  //if (not on_track()) { back_on_track(); }
+  //if (not following_line()) { adjust_line_tracking(); }
+  //if (not following_light()) { adjust_light_following(); }
 }
 
 bool safe() { return not ( fall_detected() || collision_detected() ); }
