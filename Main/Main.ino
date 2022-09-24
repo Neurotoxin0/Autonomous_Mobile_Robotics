@@ -73,4 +73,11 @@ void loop()
   //if (not following_light()) { adjust_light_following(); }
 }
 
-bool safe() { return not ( fall_detected() || collision_detected() ); }
+bool safe() 
+{ 
+  bool result = fall_detected() || collision_detected();
+  Serial.print("Safe Sataus: ");
+  Serial.print(result);
+  Serial.print("\n");
+  return result();
+}
