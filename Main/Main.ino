@@ -25,7 +25,11 @@ Xinyu Ma 500943173
 #define Ultrasonic_Send 13
 
 // servo
+#include <Servo.h>
 #define Servo_Pin 10
+Servo servo;
+int Servo_Position, Servo_Angle;
+
 //SR04 sr04 = SR04(Ultrasonic_Send,Ultrasonic_Receive);
 
 void setup() 
@@ -53,7 +57,7 @@ void setup()
   //pinMode(Ultrasonic_Receive, OUTPUT);
   
   // servo
-  //servopulse(Servo_Pin, 90);// the angle of servo is 90 degree
+  servo.attach(Servo_Pin);
 }
 
 void loop()
