@@ -2,10 +2,10 @@ void servo_init()
 {
   servo.attach(Servo_Pin);
   Serial.print(servo.attached());
-  servo_to_angle(90); // to central
+  servo_to_angle(90);
 }
 
-void servo_to_angle(int angle) 
+void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
 { 
   servo.write(angle); 
   delay(500);

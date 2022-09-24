@@ -4,7 +4,7 @@ void stop_movement()
   analogWrite(Right_Motor_PWM, 0);
 }
 
-void move_front(int speed)
+void move_front(int speed)  // @params: speed: 80 < x < 255
 {
   digitalWrite(Left_Motor_Ctrl, HIGH);
   analogWrite(Left_Motor_PWM, speed);
@@ -12,7 +12,7 @@ void move_front(int speed)
   analogWrite(Right_Motor_PWM, speed);
 }
 
-void move_back(int speed)
+void move_back(int speed)   // @params: speed: 80 < x < 255
 {
   digitalWrite(Left_Motor_Ctrl, LOW);
   analogWrite(Left_Motor_PWM, speed);
@@ -20,7 +20,7 @@ void move_back(int speed)
   analogWrite(Right_Motor_PWM, speed);
 }
 
-void left_turn(int speed, int time)
+void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
 {
   digitalWrite(Left_Motor_Ctrl,LOW);
   analogWrite(Left_Motor_PWM,Turning_Speed);
@@ -30,7 +30,7 @@ void left_turn(int speed, int time)
   stop_movement();
 }
 
-void right_turn(int speed, int time)
+void right_turn(int speed, int time)  // @params: speed: 80 < x < 255; time: x ms
 {
   digitalWrite(Left_Motor_Ctrl,HIGH);
   analogWrite(Left_Motor_PWM,Turning_Speed);

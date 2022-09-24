@@ -2,9 +2,9 @@ void avoid_fall()
 {
   if (front_central_fall_detection())
   {
-      move_back(200); // @params: speed; 80 < x < 255
+      move_back(200);
       delay(100);
-      right_turn(Turning_Speed, 350);// @params: time; x ms
+      right_turn(Turning_Speed, 350);
   }
   /*
   else if (digitalRead(Front_Left_Sensor))

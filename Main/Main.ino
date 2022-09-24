@@ -57,13 +57,11 @@ void setup()
   // servo
   servo_init();
   
-  // ultrasonic sensor
-  
 }
 
 void loop()
 {
-  move_front(80); // @params: speed; 80 < x < 255
+  move_front(80);
   avoid_fall();
   avoid_object();
 }
