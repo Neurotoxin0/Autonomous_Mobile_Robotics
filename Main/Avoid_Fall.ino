@@ -1,12 +1,13 @@
 bool fall_detected()
-{
-  //return (front_central_fall_detection()) || (digitalRead(Left_Edge_Sensor)) || (digitalRead(Right_Edge_Sensor));
-  return front_central_fall_detection();
+{ 
+  //return (digitalRead(Left_Edge_Sensor)) || (digitalRead(Right_Edge_Sensor));
+  return front_central_fall_detection(); 
 }
-
 
 void avoid_fall()
 {
+  Serial.print("avoid_fall()\n");
+  
   //if ( digitalRead(Left_Edge_Sensor)() && digitalRead(Right_Edge_Sensor) )
   if (front_central_fall_detection())
   {
@@ -30,4 +31,5 @@ void avoid_fall()
   */
 }
 
-bool front_central_fall_detection() { return digitalRead(Left_Line_Sensor) || digitalRead(Central_Line_Sensor) || digitalRead(Right_Line_Sensor); }
+// use line following sensor as edge sensors
+bool front_central_fall_detection() { return digitalRead(Left_Line_Sensor) || digitalRead(Central_Line_Sensor) || digitalRead(Right_Line_Sensor); )
