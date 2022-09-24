@@ -11,32 +11,32 @@ void avoid_fall()
   {
       move_back(200);
       delay(100);
-      right_turn(Default_Turning_Speed, 350);
+      right_turn(Default_Turning_Speed, 175);
   }
   /*
   else if (digitalRead(Front_Left_Sensor))
   {
       move_back(200);
       delay(100);
-      left_turn(Default_Turning_Speed, 350);
+      left_turn(Default_Turning_Speed, 175);
   }
   else if (digitalRead(Front_Right_Sensor))
   {
       move_back(200);
       delay(100);
-      right_turn(Default_Turning_Speed, 350);
+      right_turn(Default_Turning_Speed, 175);
   }
   else if (digitalRead(Back_Left_Sensor))
   {
       move_back(200);
       delay(100);
-      right_turn(Default_Turning_Speed, 350);
+      right_turn(Default_Turning_Speed, 175);
   }
   else if (digitalRead(Back_Right_Sensor))
   {
       move_back(200);
       delay(100);
-      left_turn(Default_Turning_Speed, 350);
+      left_turn(Default_Turning_Speed, 175);
   }
   */
 }
