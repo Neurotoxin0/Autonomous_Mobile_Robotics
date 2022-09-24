@@ -1,6 +1,3 @@
-const int Turning_Speed = 200;
-// 350~400 ms for ~45 degrees with speed 200
-
 void stop_movement()
 {
   analogWrite(Left_Motor_PWM, 0);
