@@ -4,6 +4,8 @@ bool collision_detected() { return ultra_sonic_get_distance() < 10; }
 
 void avoid_object()
 {
+  Serial.print("avoid_object()\n");
+  
   move_back(200);
   delay(100);
   stop_movement();
