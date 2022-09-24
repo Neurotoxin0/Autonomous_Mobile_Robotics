@@ -11,9 +11,13 @@ Xinyu Ma 500943173
 #define Right_Motor_PWM 6
 
 // fall & line tracking sensor
-#define Front_Left_Sensor 11
-#define Front_Middle_Sensor 7
-#define Front_Right_Sensor 8
+#define Front_Central_Left_Sensor 11
+#define Front_Central_Middle_Sensor 7
+#define Front_Central_Right_Sensor 8
+//#define Front_Left_Sensor 0
+//#define Front_Right_Sensor 0
+//#define Back_Left__Sensor 0
+//#define Back_Right_Sensor 0
 
 // ultrasonic sensor
 #include "SR04.h" //ultrasonic sensor lib
@@ -35,10 +39,14 @@ void setup()
   pinMode(Right_Motor_PWM, OUTPUT);
 
   // fall & line tracking sensor
-  pinMode(Front_Left_Sensor, INPUT);
-  pinMode(Front_Middle_Sensor, INPUT);
-  pinMode(Front_Right_Sensor, INPUT);
-
+  pinMode(Front_Central_Left_Sensor, INPUT);
+  pinMode(Front_Central_Middle_Sensor, INPUT);
+  pinMode(Front_Central_Right_Sensor, INPUT);
+  //pinMode(Front_Left_Sensor, INPUT);
+  //pinMode(Front_Right_Sensor, INPUT);
+  //pinMode(Back_Left__Sensor, INPUT);
+  //pinMode(Back_Right_Sensor, INPUT);
+  
   // ultrasonic sensor
   //pinMode(Ultrasonic_Send, INPUT);
   //pinMode(Ultrasonic_Receive, OUTPUT);
@@ -51,11 +59,39 @@ void loop()
 {
   move_front(80); // @params: speed; 80 < x < 255
   
-  if (front_fall_detection())
+  int fall_direction = fall_detection();
+  if (fall_direction)
   {
-    move_back(80); // @params: speed; 80 < x < 255
-    delay(500);
-    left_turn(350);// @params: time; x ms
+    if (fall_direction == 2)  // front central
+    {
+      move_back(80); // @params: speed; 80 < x < 255
+      delay(500);
+      right_turn(350);// @params: time; x ms
+    }
+    else if (fall_direction == 1) // front left
+    {
+      move_back(80);
+      delay(500);
+      left_turn(350);
+    }
+    else if (fall_direction == 3) // front right
+    {
+      move_back(80);
+      delay(500);
+      right_turn(350);
+    }
+    else if (fall_direction == 4) // back left
+    {
+      move_front(80);
+      delay(500);
+      right_turn(350);
+    }
+    else if (fall_direction == 5) // back right
+    {
+      move_front(80);
+      delay(500);
+      left_turn(350);
+    }
   }
 
   
