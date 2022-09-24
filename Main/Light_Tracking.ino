@@ -1,16 +1,33 @@
 int left_light, right_light;
 
-bool following_light() { return (digitalRead(Left_Light_Sensor) == 1) && (digitalRead(Right_Light_Sensor) == 1); }
+bool following_light() { return (digitalRead(Left_Light_Sensor) == 0) && (digitalRead(Right_Light_Sensor) == 0); }
 
-void adjust_light_following()
+bool adjust_light_following()
 {
   Serial.print("adjust_light_following()\n");
+  tries = 0;
   
-  left_light = digitalRead(Left_Light_Sensor);
-  right_light = digitalRead(Right_Light_Sensor);
+  while ( not following_light() && tries < 50 )
+  {
+    left_light = digitalRead(Left_Light_Sensor);
+    right_light = digitalRead(Right_Light_Sensor);
+    tries ++;
+    Serial.print("tries: ");
+    Serial.print(tries);
+    Serial.print("\n");
   
-  if      ( (left_light == 1) && (right_light == 0) ) { left_turn(Slow_Turning_Speed, 100); }
-  else if ( (left_light == 0) && (right_light == 1))  { right_turn(Slow_Turning_Speed, 100); }
-  // completly off-track OR adjust (above) is complete
-  else { stop_movement(); }
+    if (following_light())  // exit case
+    {
+      stop_movement(); 
+      Serial.print("Adjusted\n"); 
+      return 1;
+    }
+    else if ( left_light == 1 && right_light == 0 ) { left_turn(Slow_Turning_Speed, 100); }
+    else if ( left_light == 0 && right_light == 1 ) { right_turn(Slow_Turning_Speed, 100); }
+    else  // random tries
+    { 
+      
+    }
+  }
+  return 0;
 }
