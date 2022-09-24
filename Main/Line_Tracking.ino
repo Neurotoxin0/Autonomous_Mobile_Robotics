@@ -4,6 +4,8 @@ bool following_line() { return digitalRead(Central_Line_Sensor) == 1; }
 
 void adjust_line_tracking()
 {
+  Serial.print("adjust_line_tracking()\n");
+  
   left_line = digitalRead(Left_Line_Sensor);
   right_line = digitalRead(Right_Line_Sensor);
   
