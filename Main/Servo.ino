@@ -1,4 +1,4 @@
-int Servo_Angle;
+int angle;
 
 void servo_init()
 {
@@ -20,9 +20,9 @@ void servo_scaning_mode()
   for (int pos = 0; pos <= 180; pos += 1) 
   {
     servo.write(pos);
-    Servo_Angle = servo.read();
+    angle = servo.read();
     Serial.print("Servo Angle: ");
-    Serial.print(Servo_Angle);
+    Serial.print(angle);
     Serial.print("\n");
     delay(15);
   }
@@ -30,9 +30,9 @@ void servo_scaning_mode()
   for (int pos = 180; pos >= 0; pos -= 1) 
   {
     servo.write(pos);
-    Servo_Angle = servo.read();
+    angle = servo.read();
     Serial.print("Servo Angle: ");
-    Serial.print(Servo_Angle);
+    Serial.print(angle);
     Serial.print("\n");
     delay(15);
   }
