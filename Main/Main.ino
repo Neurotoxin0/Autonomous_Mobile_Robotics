@@ -79,5 +79,5 @@ bool safe()
   Serial.print("Safe Sataus: ");
   Serial.print(result);
   Serial.print("\n");
-  return result();
+  return result;
 }
