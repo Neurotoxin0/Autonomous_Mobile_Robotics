@@ -4,6 +4,7 @@ void servo_init()
   Serial.print(servo.attached());
   servo_to_angle(90);
 }
+int Servo_Angle;
 
 void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
 { 

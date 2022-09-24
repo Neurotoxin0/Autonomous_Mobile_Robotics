@@ -22,20 +22,20 @@ void move_back(int speed)   // @params: speed: 80 < x < 255
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
 {
-  digitalWrite(Left_Motor_Ctrl,LOW);
-  analogWrite(Left_Motor_PWM,Turning_Speed);
-  digitalWrite(Right_Motor_Ctrl,HIGH);
-  analogWrite(Right_Motor_PWM,Turning_Speed);
+  digitalWrite(Left_Motor_Ctrl, LOW);
+  analogWrite(Left_Motor_PWM, speed);
+  digitalWrite(Right_Motor_Ctrl, HIGH);
+  analogWrite(Right_Motor_PWM, speed);
   delay(time);
   stop_movement();
 }
 
 void right_turn(int speed, int time)  // @params: speed: 80 < x < 255; time: x ms
 {
-  digitalWrite(Left_Motor_Ctrl,HIGH);
-  analogWrite(Left_Motor_PWM,Turning_Speed);
-  digitalWrite(Right_Motor_Ctrl,LOW);
-  analogWrite(Right_Motor_PWM,Turning_Speed);
+  digitalWrite(Left_Motor_Ctrl, HIGH);
+  analogWrite(Left_Motor_PWM, speed);
+  digitalWrite(Right_Motor_Ctrl, LOW);
+  analogWrite(Right_Motor_PWM, speed);
   delay(time);
   stop_movement();
 }

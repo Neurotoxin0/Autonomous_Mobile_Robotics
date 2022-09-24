@@ -24,15 +24,12 @@ const int Turning_Speed = 200;  // 350~400 ms for ~45 degrees with speed 200
 #include <Servo.h>
 #define Servo_Pin 10
 Servo servo;
-int Servo_Angle;
 
 // ultrasonic sensor
 #include "SR04.h" //ultrasonic sensor lib
 #define Ultrasonic_Receive 12
 #define Ultrasonic_Send 13
 SR04 sr04 = SR04(Ultrasonic_Send,Ultrasonic_Receive);
-long Ultrasonic_Central_Distance, Ultrasonic_Left_Distance, Ultrasonic_Right_Distance;
-
 
 void setup() 
 {

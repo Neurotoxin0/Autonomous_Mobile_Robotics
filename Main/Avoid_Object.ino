@@ -1,3 +1,5 @@
+long Ultrasonic_Central_Distance, Ultrasonic_Left_Distance, Ultrasonic_Right_Distance;
+
 void avoid_object()
 {
   servo_to_angle(90);
