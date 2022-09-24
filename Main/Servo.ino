@@ -1,7 +1,14 @@
 void servo_init()
 {
+  servo.attach(Servo_Pin);
   Serial.print(servo.attached());
-  servo.write(90); // to central
+  servo_to_angle(90); // to central
+}
+
+void servo_to_angle(int angle) 
+{ 
+  servo.write(angle); 
+  delay(500);
 }
 
 void servo_scaning_mode()
