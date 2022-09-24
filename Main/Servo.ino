@@ -4,6 +4,8 @@ void servo_init()
 {
   servo.attach(Servo_Pin);
   Serial.print(servo.attached());
+  servo_to_angle(0);
+  servo_to_angle(180);
   servo_to_angle(90);
 }
 

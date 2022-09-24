@@ -1,4 +1,4 @@
-/*
+    /*
 Yang Xu 500890631
 Ruoling Yu 500976267
 Xinyu Ma 500943173
@@ -9,7 +9,7 @@ Xinyu Ma 500943173
 #define Left_Motor_PWM 5
 #define Right_Motor_Ctrl 2
 #define Right_Motor_PWM 6
-const int Turning_Speed = 200;  // 350~400 ms for ~45 degrees with speed 200
+const int Default_Turning_Speed = 200;  // 350~400 ms for ~45 degrees with speed 200
 
 // fall & line tracking sensor
 #define Front_Central_Left_Sensor 11
@@ -58,7 +58,11 @@ void setup()
 
 void loop()
 {
-  move_front(80);
-  avoid_fall();
-  avoid_object();
+  while (safe()) { move_front(80); }
+  stop_movement();
+  
+  if (fall_detected()) { avoid_fall(); }
+  if (collision_detected()) { avoid_object(); }
 }
+
+bool safe() { return not ( fall_detected() || collision_detected() ); }
