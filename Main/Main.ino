@@ -58,11 +58,12 @@ void setup()
 
 void loop()
 {
-  while (safe()) { move_front(80); }
+  while ( safe() /*&& on_track()*/) { move_front(80); }
   stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
   if (collision_detected()) { avoid_object(); }
+  if (not on_track()) { back_on_track(); }
 }
 
 bool safe() { return not ( fall_detected() || collision_detected() ); }
