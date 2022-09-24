@@ -16,8 +16,8 @@ void avoid_object()
   servo_to_angle(0);  // turn to right
   right_distance = ultra_sonic_get_distance();
     
-  if (left_distance > right_distance) { left_turn(Default_Turning_Speed, 350); }
-  else                                { right_turn(Default_Turning_Speed, 350); }
+  if (left_distance > right_distance) { left_turn(Default_Turning_Speed, 175); }
+  else                                { right_turn(Default_Turning_Speed, 175); }
     
   servo_to_angle(90);
 }
