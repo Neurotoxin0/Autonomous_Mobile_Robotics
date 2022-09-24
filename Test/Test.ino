@@ -6,6 +6,8 @@
 #define turning_speed 150 // will turn how many angle in a sec, with speed 200
 #define turning_time 2.4  // will cost how many time to turn 360 degrees, with speed 200
 
+char command; 
+
 void setup() 
 {
   // motors
@@ -28,4 +30,23 @@ void loop()
   analogWrite(Right_Motor_PWM,0);
   
   delay(5000);
+
+  switch(command)
+  {
+    case 'F':  
+      //forward();
+      break;
+    case 'B':  
+      //back();
+      break;
+    case 'L':  
+      //left();
+      break;
+    case 'R':
+      //right();
+      break;
+      case 'S':  
+      //Stop();
+      break;
+  }
 }
