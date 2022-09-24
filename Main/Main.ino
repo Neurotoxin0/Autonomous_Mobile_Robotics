@@ -30,7 +30,8 @@ Xinyu Ma 500943173
 
 void setup() 
 {
-  Serial.begin(9600); // initialize serial communication at 9600 bits per second
+  // initialize serial communication
+  Serial.begin(9600); 
   
   // motors
   pinMode(Left_Motor_Ctrl, OUTPUT);
@@ -93,9 +94,5 @@ void loop()
       left_turn(350);
     }
   }
-
-  
-  
-  
  
 }
