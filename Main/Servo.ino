@@ -2,7 +2,10 @@ void servo_init()
 {
   Serial.print(servo.attached());
   servo.write(90); // to central
+}
 
+void servo_scaning_mode()
+{
   for (Servo_Position = 0; Servo_Position <= 180; Servo_Position += 1) 
   {
     servo.write(Servo_Position);
