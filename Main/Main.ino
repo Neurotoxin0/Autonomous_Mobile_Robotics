@@ -9,6 +9,7 @@ Xinyu Ma 500943173
 #define Left_Motor_PWM 5
 #define Right_Motor_Ctrl 2
 #define Right_Motor_PWM 6
+const int Turning_Speed = 200;  // 350~400 ms for ~45 degrees with speed 200
 
 // fall & line tracking sensor
 #define Front_Central_Left_Sensor 11
@@ -19,18 +20,19 @@ Xinyu Ma 500943173
 //#define Back_Left__Sensor 0
 //#define Back_Right_Sensor 0
 
-// ultrasonic sensor
-#include "SR04.h" //ultrasonic sensor lib
-#define Ultrasonic_Receive 12
-#define Ultrasonic_Send 13
-
 // servo
 #include <Servo.h>
 #define Servo_Pin 10
 Servo servo;
 int Servo_Position, Servo_Angle;
 
-//SR04 sr04 = SR04(Ultrasonic_Send,Ultrasonic_Receive);
+// ultrasonic sensor
+#include "SR04.h" //ultrasonic sensor lib
+#define Ultrasonic_Receive 12
+#define Ultrasonic_Send 13
+SR04 sr04 = SR04(Ultrasonic_Send,Ultrasonic_Receive);
+long Ultrasonic_Central_Distance, Ultrasonic_Left_Distance, Ultrasonic_Right_Distance;
+
 
 void setup() 
 {
@@ -52,51 +54,16 @@ void setup()
   //pinMode(Back_Left__Sensor, INPUT);
   //pinMode(Back_Right_Sensor, INPUT);
   
-  // ultrasonic sensor
-  //pinMode(Ultrasonic_Send, INPUT);
-  //pinMode(Ultrasonic_Receive, OUTPUT);
-  
   // servo
-  servo.attach(Servo_Pin);
+  servo_init();
+  
+  // ultrasonic sensor
+  
 }
 
 void loop()
 {
   move_front(80); // @params: speed; 80 < x < 255
-  
-  int fall_direction = fall_detection();
-  if (fall_direction)
-  {
-    if (fall_direction == 2)  // front central
-    {
-      move_back(80); // @params: speed; 80 < x < 255
-      delay(500);
-      right_turn(350);// @params: time; x ms
-    }
-    else if (fall_direction == 1) // front left
-    {
-      move_back(80);
-      delay(500);
-      left_turn(350);
-    }
-    else if (fall_direction == 3) // front right
-    {
-      move_back(80);
-      delay(500);
-      right_turn(350);
-    }
-    else if (fall_direction == 4) // back left
-    {
-      move_front(80);
-      delay(500);
-      right_turn(350);
-    }
-    else if (fall_direction == 5) // back right
-    {
-      move_front(80);
-      delay(500);
-      left_turn(350);
-    }
-  }
- 
+  avoid_fall();
+  avoid_object();
 }
