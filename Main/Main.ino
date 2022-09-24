@@ -9,7 +9,7 @@ Xinyu Ma 500943173
 #define Left_Motor_PWM 5
 #define Right_Motor_Ctrl 2
 #define Right_Motor_PWM 6
-const int Default_Turning_Speed = 200;  // 350~400 ms for ~45 degrees with speed 200
+const int Default_Turning_Speed = 200;  // 350 ms for ~90 degrees with speed 200
 
 // fall & line tracking sensor
 #define Front_Central_Left_Sensor 11
@@ -63,7 +63,7 @@ void loop()
   
   if (fall_detected()) { avoid_fall(); }
   if (collision_detected()) { avoid_object(); }
-  if (not on_track()) { back_on_track(); }
+  //if (not on_track()) { back_on_track(); }
 }
 
 bool safe() { return not ( fall_detected() || collision_detected() ); }
