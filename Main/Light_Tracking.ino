@@ -4,6 +4,8 @@ bool following_light() { return (digitalRead(Left_Light_Sensor) == 1) && (digita
 
 void adjust_light_following()
 {
+  Serial.print("adjust_light_following()\n");
+  
   left_light = digitalRead(Left_Light_Sensor);
   right_light = digitalRead(Right_Light_Sensor);
   
