@@ -20,7 +20,7 @@ void move_back(int speed)
   analogWrite(Right_Motor_PWM, speed);
 }
 
-void left_turn(int time)
+void left_turn(int speed, int time)
 {
   digitalWrite(Left_Motor_Ctrl,LOW);
   analogWrite(Left_Motor_PWM,Turning_Speed);
@@ -30,7 +30,7 @@ void left_turn(int time)
   stop_movement();
 }
 
-void right_turn(int time)
+void right_turn(int speed, int time)
 {
   digitalWrite(Left_Motor_Ctrl,HIGH);
   analogWrite(Left_Motor_PWM,Turning_Speed);
