@@ -1,51 +1,23 @@
-/*long distance,a1,a2;
-
-void avoid()
+void avoid_object()
 {
-  distance=sr04.Distance(); //obtain the value detected by ultrasonic sensor 
+  servo_to_angle(90);
+  Ultrasonic_Central_Distance = ultra_sonic_get_distance();
   
-  if((distance < 20)&&(distance > 0))//if the distance is greater than 0 and less than 20  
+  if ( (Ultrasonic_Central_Distance > 0) && (Ultrasonic_Central_Distance < 20) )
   {
-    stop_movement();//stop
+    move_back(200); // @params: speed; 80 < x < 255
     delay(100);
+    stop_movement();
     
-    servopulse(Servo_Pin,180);//servo rotates to 180°
-    delay(500);
-    a1=sr04.Distance();//measure the distance
-    delay(100);
+    servo_to_angle(180);  // turn to left
+    Ultrasonic_Left_Distance = ultra_sonic_get_distance();
     
-    servopulse(Servo_Pin,0);//rotate to 0 degree
-    delay(500);
-    a2=sr04.Distance();//measure the distance
-    delay(100);
+    servo_to_angle(0);  // turn to right
+    Ultrasonic_Right_Distance = ultra_sonic_get_distance();
     
-    if(a1 > a2) //if distance a1 is greater than a2
-    {
-      left_turn(350);//turn left
-      servopulse(Servo_Pin,90);//servo rotates to 90 degree
-      delay(300); 
-    }
-    else  //if the right distance is greater than the left
-    {
-      right_turn(350);// turn right
-      servopulse(Servo_Pin,90);// servo rotates to 90 degree
-      delay(300); 
-    }
-  }
-  else//otherwise
-  {
-    move_front(100);//go forward
+    if (Ultrasonic_Left_Distance > Ultrasonic_Right_Distance) { left_turn(Turning_Speed, 350); }
+    else                                                      { right_turn(Turning_Speed, 350); }
+    
+    servo_to_angle(90);
   }
 }
-
-void servopulse(int Servo_Pin,int myangle) //the running angle of servo
-{
-  for(int i=0; i<30; i++)
-  {
-    int pulsewidth = (myangle*11)+500;
-    digitalWrite(Servo_Pin,HIGH);
-    delayMicroseconds(pulsewidth);
-    digitalWrite(Servo_Pin,LOW);
-    delay(20-pulsewidth/1000);
-  }  
-}*/
