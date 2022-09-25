@@ -69,16 +69,18 @@ void loop()
   Serial.print("\n");
   
   //while ( safe() && following_line() ) { move_front(80); }
-  /*while (safe()) { move_front(80); }
+  while (safe()) { move_front(80); }
   stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
   if (collision_detected()) { avoid_object(); }
-  */
+  
+  /*
   if (not following_line()) 
   { 
     if (not adjust_line_tracking()) { exit(0); };  // if failed to adjust: exit
   }
+  */
   /*
   if (not following_light()) 
   { 
