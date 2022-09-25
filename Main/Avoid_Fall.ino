@@ -19,10 +19,10 @@ void avoid_fall()
   Serial.print("avoid_fall()\n");
   
   // both
-  if ( front_fall_detected() && back_fall_detected() ) { right_turn(Default_Turning_Speed, 300); }
+  //if ( front_fall_detected() && back_fall_detected() ) { right_turn(Default_Turning_Speed, 300); }
 
   // front
-  else if ( digitalRead(Front_Left_Edge_Sensor) && digitalRead(Front_Right_Edge_Sensor) )
+  if ( digitalRead(Front_Left_Edge_Sensor) && digitalRead(Front_Right_Edge_Sensor) )
   //else if (digitalRead(Front_Central_Edge_Sensor))
   {
       move_back(200);
@@ -42,26 +42,28 @@ void avoid_fall()
       delay(100);
       left_turn(Default_Turning_Speed, 175);
   }
-
+  
+  /*
   // back
   else if (digitalRead(Back_Left_Edge_Sensor) && digitalRead(Back_Right_Edge_Sensor)) 
   {
       move_front(200);
-      delay(100);
+      delay(200);
       stop_movement();
   }
   else if (digitalRead(Back_Left_Edge_Sensor)) 
   {
-      move_front(200);
-      delay(100);
+      move_front(150);
+      delay(200);
       left_turn(Default_Turning_Speed, 175);
   }
   else if (digitalRead(Back_Right_Edge_Sensor))
   {
-      move_front(200);
-      delay(100);
+      move_front(150);
+      delay(200);
       right_turn(Default_Turning_Speed, 175);
   }
+  */
 }
 
 // use line following sensor as edge sensors
