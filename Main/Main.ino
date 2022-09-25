@@ -79,12 +79,12 @@ void loop()
   Serial.print("\n");
   
   
-  while ( following_line() ) { move_front(80); }
-  //while (safe()) { move_front(80); }
-  //stop_movement();
+  //while ( following_line() ) { move_front(80); }
+  while (safe()) { move_front(70); }  // new batt: 70; old batt: 80
+  stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
-  //if (collision_detected()) { avoid_object(); }
+  if (collision_detected()) { avoid_object(); }
   
   /*
   if (not following_line()) 
@@ -92,20 +92,20 @@ void loop()
     if (not adjust_line_tracking()) { exit(0); };  // if failed to adjust: exit
   }
   */
-  
+  /*
   if (not following_light()) 
   { 
     if (not adjust_light_following()) { exit(0); }; 
   }
+  */
   
    //Serial.print(digitalRead(Left_Light_Sensor));
-  
 }
 
 bool safe() 
 { 
-  //bool result = not ( fall_detected() || collision_detected() );
-  bool result = not ( fall_detected() );
+  bool result = not ( fall_detected() || collision_detected() );
+  //bool result = not ( fall_detected() );
   Serial.print("Safe Sataus: ");
   Serial.print(result);
   Serial.print("\n");
