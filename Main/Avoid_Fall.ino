@@ -13,7 +13,7 @@ void avoid_fall()
   {
       move_back(200);
       delay(100);
-      right_turn(Default_Turning_Speed, 175);
+      right_turn(Default_Turning_Speed, 300);
   }
   else if (digitalRead(Left_Edge_Sensor))
   {
