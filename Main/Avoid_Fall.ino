@@ -15,20 +15,19 @@ void avoid_fall()
       delay(100);
       right_turn(Default_Turning_Speed, 175);
   }
-  /*
   else if (digitalRead(Left_Edge_Sensor))
   {
       move_back(200);
       delay(100);
-      left_turn(Default_Turning_Speed, 175);
+      right_turn(Default_Turning_Speed, 175);
+      
   }
   else if (digitalRead(Right_Edge_Sensor))
   {
       move_back(200);
       delay(100);
-      right_turn(Default_Turning_Speed, 175);
+      left_turn(Default_Turning_Speed, 175);
   }
-  */
 }
 
 // use line following sensor as edge sensors
