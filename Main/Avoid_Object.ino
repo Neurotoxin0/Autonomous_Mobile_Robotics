@@ -1,6 +1,6 @@
 long left_distance, right_distance;
 
-bool collision_detected() { return ultra_sonic_get_distance(0) < 10 && ultra_sonic_get_distance(0) > 1180; }
+bool collision_detected() { return ultra_sonic_get_distance(0) < 10; } // ultra_sonic_get_distance(0) > 1180: case happen when distance == 0
 
 void avoid_object()
 {
