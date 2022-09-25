@@ -26,7 +26,7 @@ bool adjust_light_following()
     else if ( left_light == 0 && right_light == 1 ) { right_turn(Slow_Turning_Speed, 100); }
     else  // random tries
     { 
-      
+      left_turn(Slow_Turning_Speed, 300);
     }
   }
   return 0;

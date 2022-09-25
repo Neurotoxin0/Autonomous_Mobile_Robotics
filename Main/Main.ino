@@ -12,12 +12,17 @@ Xinyu Ma 500943173
 const int Default_Turning_Speed = 200;  // 350 ms for ~90 degrees with speed 200
 const int Slow_Turning_Speed = 80;
 
-// line tracking & edge sensor
+// edge sensor
+#define Front_Central_Edge_Sensor 3
+#define Front_Left_Edge_Sensor 10
+#define Front_Right_Edge_Sensor 9
+#define Back_Left_Edge_Sensor 17  // A3
+#define Back_Right_Edge_Sensor 14 // A0
+
+// line tracking
 #define Left_Line_Sensor 11
 #define Central_Line_Sensor 7
 #define Right_Line_Sensor 8
-#define Left_Edge_Sensor 17  // A3
-#define Right_Edge_Sensor 14 // A0
 
 // light sensor
 #define Left_Light_Sensor 15  // A1
@@ -25,7 +30,7 @@ const int Slow_Turning_Speed = 80;
 
 // servo
 #include <Servo.h>
-#define Servo_Pin 10
+#define Servo_Pin 18 // A4
 Servo servo;
 
 // ultrasonic sensor
@@ -48,13 +53,18 @@ void setup()
   pinMode(Right_Motor_Ctrl, OUTPUT);
   pinMode(Right_Motor_PWM, OUTPUT);
 
-  // fall & line tracking sensor
+  // edge sensor
+  pinMode(Front_Central_Edge_Sensor, INPUT);
+  pinMode(Front_Left_Edge_Sensor, INPUT);
+  pinMode(Front_Right_Edge_Sensor, INPUT);
+  pinMode(Back_Left_Edge_Sensor, INPUT);
+  pinMode(Back_Right_Edge_Sensor, INPUT);
+
+  // line tracking sensor
   pinMode(Left_Line_Sensor, INPUT);
   pinMode(Central_Line_Sensor, INPUT);
   pinMode(Right_Line_Sensor, INPUT);
-  pinMode(Left_Edge_Sensor, INPUT);
-  pinMode(Right_Edge_Sensor, INPUT);
-
+  
   // light sensor
   pinMode(Left_Light_Sensor, INPUT);
   pinMode(Right_Light_Sensor, INPUT);
@@ -68,12 +78,13 @@ void loop()
 {
   Serial.print("\n");
   
-  //while ( safe() && following_line() ) { move_front(80); }
-  while (safe()) { move_front(80); }
-  stop_movement();
+  
+  while ( following_line() ) { move_front(80); }
+  //while (safe()) { move_front(80); }
+  //stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
-  if (collision_detected()) { avoid_object(); }
+  //if (collision_detected()) { avoid_object(); }
   
   /*
   if (not following_line()) 
@@ -81,17 +92,20 @@ void loop()
     if (not adjust_line_tracking()) { exit(0); };  // if failed to adjust: exit
   }
   */
-  /*
+  
   if (not following_light()) 
   { 
     if (not adjust_light_following()) { exit(0); }; 
   }
-  */
+  
+   //Serial.print(digitalRead(Left_Light_Sensor));
+  
 }
 
 bool safe() 
 { 
-  bool result = not ( fall_detected() || collision_detected() );
+  //bool result = not ( fall_detected() || collision_detected() );
+  bool result = not ( fall_detected() );
   Serial.print("Safe Sataus: ");
   Serial.print(result);
   Serial.print("\n");
