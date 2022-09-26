@@ -37,11 +37,13 @@ void avoid_fall()
   // back
   else if (digitalRead(Back_Central_Edge_Sensor))
   {
-      move_front(200);
+      move_front(100);
       delay(200);
       stop_movement();
   }
 }
+
+bool can_move_back() { return digitalRead(Back_Central_Edge_Sensor) == 0; }
 
 // use line tracking sensor as edge sensors
 bool front_central_fall_detection() { return digitalRead(Left_Line_Sensor) || digitalRead(Central_Line_Sensor) || digitalRead(Right_Line_Sensor); }
