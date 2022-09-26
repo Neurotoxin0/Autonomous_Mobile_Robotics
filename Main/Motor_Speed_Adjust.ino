@@ -5,7 +5,7 @@ void motor_speed_adjust()
   Serial.print(Base_Speed);
   Serial.print("\n");
   
-  while (digitalRead(Back_Central_Edge_Sensor) == 1)
+  while (digitalRead(Back_Central_Edge_Sensor) == 1 && Base_Speed < 250)
   {
     Base_Speed += 5;
     Serial.print("Adjust Base Speed to: ");
