@@ -14,10 +14,13 @@ void move_front(int speed)  // @params: speed: 80 < x < 255
 
 void move_back(int speed)
 {
-  digitalWrite(Left_Motor_Ctrl, LOW);
-  analogWrite(Left_Motor_PWM, speed);
-  digitalWrite(Right_Motor_Ctrl, LOW);
-  analogWrite(Right_Motor_PWM, speed);
+  if (can_move_back())
+  {
+    digitalWrite(Left_Motor_Ctrl, LOW);
+    analogWrite(Left_Motor_PWM, speed);
+    digitalWrite(Right_Motor_Ctrl, LOW);
+    analogWrite(Right_Motor_PWM, speed);
+  }
 }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
