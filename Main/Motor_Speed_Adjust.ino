@@ -15,6 +15,7 @@ void motor_speed_adjust()
     delay(500);
   }
   
+  Base_Speed += 2;
   Serial.print("FINAL Base Speed: ");
   Serial.print(Base_Speed);
   Serial.print("\n");
