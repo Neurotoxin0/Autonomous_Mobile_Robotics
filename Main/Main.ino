@@ -97,13 +97,13 @@ void loop()
   }
   */
   
-   //Serial.print(digitalRead(Left_Light_Sensor));
+   //Serial.print(ultra_sonic_get_distance(1));
 }
 
 bool safe() 
 { 
-  bool result = not ( fall_detected() || collision_detected() );
-  //bool result = not ( fall_detected() );
+  //bool result = not ( fall_detected() || collision_detected() );
+  bool result = not ( fall_detected() );
   Serial.print("Safe Sataus: ");
   Serial.print(result);
   Serial.print("\n");
