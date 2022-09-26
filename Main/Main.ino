@@ -1,23 +1,25 @@
-    /*
+/*
 Yang Xu 500890631
 Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
+
+int Base_Speed = 70; // new batt: 70; old batt: 80
+const int Default_Turning_Speed = 200;  // 350 ms for ~90 degrees with speed 200
+const int Slow_Turning_Speed = 80;
+int tries;
 
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
 #define Left_Motor_PWM 5
 #define Right_Motor_Ctrl 2
 #define Right_Motor_PWM 6
-const int Default_Turning_Speed = 200;  // 350 ms for ~90 degrees with speed 200
-const int Slow_Turning_Speed = 80;
 
 // edge sensor
-#define Front_Central_Edge_Sensor 3
+//#define Front_Central_Edge_Sensor 3
 #define Front_Left_Edge_Sensor 10
 #define Front_Right_Edge_Sensor 9
-#define Back_Left_Edge_Sensor 17  // A3
-#define Back_Right_Edge_Sensor 14 // A0
+#define Back_Central_Edge_Sensor 14  // A0
 
 // line tracking
 #define Left_Line_Sensor 11
@@ -30,17 +32,14 @@ const int Slow_Turning_Speed = 80;
 
 // servo
 #include <Servo.h>
-#define Servo_Pin 18 // A4
+#define Servo_Pin 17 // A3
 Servo servo;
 
 // ultrasonic sensor
 #include "SR04.h" //ultrasonic sensor lib
 #define Ultrasonic_Receive 12
 #define Ultrasonic_Send 13
-SR04 sr04 = SR04(Ultrasonic_Send,Ultrasonic_Receive);
-
-// other global params
-int tries;
+SR04 sr04 = SR04(Ultrasonic_Send, Ultrasonic_Receive);
 
 void setup() 
 {
@@ -54,11 +53,10 @@ void setup()
   pinMode(Right_Motor_PWM, OUTPUT);
 
   // edge sensor
-  pinMode(Front_Central_Edge_Sensor, INPUT);
+  //pinMode(Front_Central_Edge_Sensor, INPUT);
   pinMode(Front_Left_Edge_Sensor, INPUT);
   pinMode(Front_Right_Edge_Sensor, INPUT);
-  pinMode(Back_Left_Edge_Sensor, INPUT);
-  pinMode(Back_Right_Edge_Sensor, INPUT);
+  pinMode(Back_Central_Edge_Sensor, INPUT);
 
   // line tracking sensor
   pinMode(Left_Line_Sensor, INPUT);
@@ -71,16 +69,16 @@ void setup()
   
   // servo
   servo_init();
-  
+
+  motor_speed_adjust();
 }
 
 void loop()
 {
   Serial.print("\n");
   
-  
-  //while ( following_line() ) { move_front(80); }
-  while (safe()) { move_front(70); }  // new batt: 70; old batt: 80
+  //while ( following_line() ) { move_front(Base_Speed); }
+  while (safe()) { move_front(Base_Speed); }
   stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
