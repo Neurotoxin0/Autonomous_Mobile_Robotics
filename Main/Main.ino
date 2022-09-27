@@ -19,7 +19,8 @@ int tries;
 //#define Front_Central_Edge_Sensor 3
 #define Front_Left_Edge_Sensor 10
 #define Front_Right_Edge_Sensor 9
-#define Back_Central_Edge_Sensor 14  // A0
+#define Back_Left_Edge_Sensor 17  // A3
+#define Back_Right_Edge_Sensor 14  // A0
 
 // line tracking
 #define Left_Line_Sensor 11
@@ -32,7 +33,7 @@ int tries;
 
 // servo
 #include <Servo.h>
-#define Servo_Pin 17 // A3
+#define Servo_Pin 18 // A4
 Servo servo;
 
 // ultrasonic sensor
@@ -56,7 +57,8 @@ void setup()
   //pinMode(Front_Central_Edge_Sensor, INPUT);
   pinMode(Front_Left_Edge_Sensor, INPUT);
   pinMode(Front_Right_Edge_Sensor, INPUT);
-  pinMode(Back_Central_Edge_Sensor, INPUT);
+  pinMode(Back_Left_Edge_Sensor, INPUT);
+  pinMode(Back_Right_Edge_Sensor, INPUT);
 
   // line tracking sensor
   pinMode(Left_Line_Sensor, INPUT);
@@ -76,14 +78,13 @@ void setup()
 void loop()
 {
   Serial.print("\n");
-  
+
   //while ( following_line() ) { move_front(Base_Speed); }
   while (safe()) { move_front(Base_Speed); }
   stop_movement();
   
   if (fall_detected()) { avoid_fall(); }
-  if (collision_detected()) { avoid_object(); }
-  
+  //if (collision_detected()) { avoid_object(); }
   /*
   if (not following_line()) 
   { 
