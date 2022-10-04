@@ -16,7 +16,6 @@ int tries;
 #define Right_Motor_PWM 6
 
 // edge sensor
-//#define Front_Central_Edge_Sensor 3
 #define Front_Left_Edge_Sensor 10
 #define Front_Right_Edge_Sensor 9
 #define Back_Left_Edge_Sensor 17  // A3
@@ -37,7 +36,7 @@ int tries;
 Servo servo;
 
 // ultrasonic sensor
-#include "SR04.h" //ultrasonic sensor lib
+#include "SR04.h"
 #define Ultrasonic_Receive 12
 #define Ultrasonic_Send 13
 SR04 sr04 = SR04(Ultrasonic_Send, Ultrasonic_Receive);
@@ -72,19 +71,19 @@ void setup()
   // servo
   servo_init();
 
+  // motor
   motor_speed_adjust();
 }
 
 void loop()
 {
   Serial.print("\n");
+  servo_scaning_mode();
+  if (front_fall_detected()) { avoid_fall(); }
+  if (collision_detected()) { avoid_object(); }
+  else { move_front(Base_Speed); }
 
-  //while ( following_line() ) { move_front(Base_Speed); }
-  while (safe()) { move_front(Base_Speed); }
-  stop_movement();
-  
-  if (fall_detected()) { avoid_fall(); }
-  //if (collision_detected()) { avoid_object(); }
+ 
   /*
   if (not following_line()) 
   { 
@@ -99,14 +98,4 @@ void loop()
   */
   
    //Serial.print(ultra_sonic_get_distance(1));
-}
-
-bool safe() 
-{ 
-  //bool result = not ( fall_detected() || collision_detected() );
-  bool result = not ( fall_detected() );
-  Serial.print("Safe Sataus: ");
-  Serial.print(result);
-  Serial.print("\n");
-  return result;
 }

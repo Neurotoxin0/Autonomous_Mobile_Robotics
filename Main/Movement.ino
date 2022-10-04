@@ -16,7 +16,7 @@ void move_back(int speed)
 {
   stop_movement();
   
-  if (can_move_back())
+  if ( not back_fall_detected() )
   {
     digitalWrite(Left_Motor_Ctrl, LOW);
     analogWrite(Left_Motor_PWM, speed);
@@ -44,5 +44,3 @@ void right_turn(int speed, int time)
   delay(time);
   stop_movement();
 }
-
-bool can_move_back() { return not ( digitalRead(Back_Left_Edge_Sensor) || digitalRead(Back_Right_Edge_Sensor) ); }

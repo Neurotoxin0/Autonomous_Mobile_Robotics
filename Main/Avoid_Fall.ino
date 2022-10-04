@@ -1,5 +1,3 @@
-bool fall_detected() { return front_fall_detected() || back_fall_detected(); }
-
 bool front_fall_detected(){ return digitalRead(Front_Left_Edge_Sensor) || digitalRead(Front_Right_Edge_Sensor); }
 
 bool back_fall_detected() { return digitalRead(Back_Left_Edge_Sensor) || digitalRead(Back_Right_Edge_Sensor); }
@@ -7,6 +5,7 @@ bool back_fall_detected() { return digitalRead(Back_Left_Edge_Sensor) || digital
 
 void avoid_fall()
 {
+  stop_movement();
   Serial.print("avoid_fall()\n");
   
   // both
@@ -34,6 +33,7 @@ void avoid_fall()
       left_turn(Default_Turning_Speed, 175);
   }
   
+  /*
   // back
   else if ( digitalRead(Back_Left_Edge_Sensor) && digitalRead(Back_Right_Edge_Sensor) )
   {
@@ -41,6 +41,7 @@ void avoid_fall()
       delay(200);
       stop_movement();
   }
+  */
 }
 
 void random_turn(int input)
