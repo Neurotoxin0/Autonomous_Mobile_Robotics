@@ -78,12 +78,12 @@ void setup()
 void loop()
 {
   Serial.print("\n");
-  servo_scaning_mode();
+  
   if (front_fall_detected()) { avoid_fall(); }
-  if (collision_detected()) { avoid_object(); }
   else { move_front(Base_Speed); }
+    
+  servo_scaning_mode();
 
- 
   /*
   if (not following_line()) 
   { 

@@ -23,14 +23,14 @@ void avoid_fall()
   {
       move_back(200);
       delay(100);
-      right_turn(Default_Turning_Speed, 175);
+      right_turn(Default_Turning_Speed, random(175,350));
       
   }
   else if (digitalRead(Front_Right_Edge_Sensor))
   {
       move_back(200);
       delay(100);
-      left_turn(Default_Turning_Speed, 175);
+      left_turn(Default_Turning_Speed, random(175,350));
   }
   
   /*

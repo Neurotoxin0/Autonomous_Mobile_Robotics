@@ -1,7 +1,7 @@
 int angle;
 long left_distance, right_distance;
 
-bool collision_detected() { return ultra_sonic_get_distance(0) < 10; } // ultra_sonic_get_distance(0) > 1180: case happen when distance == 0
+bool collision_detected() { return ultra_sonic_get_distance(0) < 20; } // ultra_sonic_get_distance(0) > 1180: case happen when distance == 0
 
 void avoid_object()
 {
@@ -14,8 +14,8 @@ void avoid_object()
   angle = servo.read();
 
   if ( angle >= 75 && angle <= 90 ) { random_turn(350); }
-  else if ( angle > 45 && angle < 75 ) { left_turn(Default_Turning_Speed, 175); }
-  else if ( angle > 90 && angle < 135 ) { right_turn(Default_Turning_Speed, 175); }
+  else if ( angle > 45 && angle < 75 ) { left_turn(Default_Turning_Speed, random(175,350)); }
+  else if ( angle > 90 && angle < 135 ) { right_turn(Default_Turning_Speed, random(175,350)); }
     
   /* 
   // Measure left side distance
