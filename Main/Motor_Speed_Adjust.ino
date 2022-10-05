@@ -12,7 +12,7 @@ void motor_speed_adjust()
     Serial.print(Base_Speed);
     Serial.print("\n");
     move_front(Base_Speed);
-    delay(800);
+    delay(750);
   }
   
   Base_Speed += 2;
