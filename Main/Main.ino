@@ -79,8 +79,7 @@ void loop()
 {
   Serial.print("\n");
   
-  if (front_fall_detected()) { avoid_fall(); }
-  else { move_front(Base_Speed); }
+  fall_and_collision_detection();
     
   servo_scaning_mode();
 
@@ -98,4 +97,11 @@ void loop()
   */
   
    //Serial.print(ultra_sonic_get_distance(1));
+}
+
+void fall_and_collision_detection()
+{
+  if (front_fall_detected())      { avoid_fall(); }
+  else if (collision_detected())  { avoid_object(); }
+  else                            { move_front(Base_Speed); }
 }
