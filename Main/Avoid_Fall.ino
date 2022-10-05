@@ -33,7 +33,6 @@ void avoid_fall()
       left_turn(Default_Turning_Speed, random(175,350));
   }
   
-  /*
   // back
   else if ( digitalRead(Back_Left_Edge_Sensor) && digitalRead(Back_Right_Edge_Sensor) )
   {
@@ -41,7 +40,6 @@ void avoid_fall()
       delay(200);
       stop_movement();
   }
-  */
 }
 
 void random_turn(int input)
