@@ -73,14 +73,14 @@ void setup()
 
   // motor
   motor_speed_adjust();
+  fall_and_collision_detection();
 }
 
 void loop()
 {
   Serial.print("\n");
   
-  fall_and_collision_detection();
-    
+  //fall_and_collision_detection();
   servo_scaning_mode();
 
   /*
