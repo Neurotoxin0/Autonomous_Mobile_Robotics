@@ -6,7 +6,7 @@ Xinyu Ma 500943173
 
 #define Default_Turning_Speed 200 // 350 ms for ~90 degrees with speed 200
 #define Slow_Turning_Speed 80
-#define Safety_Distance 10
+#define Safety_Distance 15
 int Base_Speed = 70;
 long left_distance, right_distance;
 int tries;
@@ -39,10 +39,10 @@ Servo servo;
 // ultrasonic sensor
 #include "SR04.h"
 #define Ultrasonic_Receive 12
-#define Left_Ultrasonic_Receive 18  // A4
-#define Left_Ultrasonic_Send 19     // A5
-#define Right_Ultrasonic_Receive 12
-#define Right_Ultrasonic_Send 13
+#define Left_Ultrasonic_Receive 12
+#define Left_Ultrasonic_Send 13
+#define Right_Ultrasonic_Receive 18  // A4
+#define Right_Ultrasonic_Send 19     // A5
 SR04 left_sr04 = SR04(Left_Ultrasonic_Send, Left_Ultrasonic_Receive);
 SR04 right_sr04 = SR04(Right_Ultrasonic_Send, Right_Ultrasonic_Receive);
 
