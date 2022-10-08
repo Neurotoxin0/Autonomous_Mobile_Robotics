@@ -1,5 +1,3 @@
-int angle;
-
 bool collision_detected()
 { 
   ultra_sonic_update_distance();
