@@ -4,9 +4,11 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-int Base_Speed = 70; // new batt: 70; old batt: 80
-const int Default_Turning_Speed = 200;  // 350 ms for ~90 degrees with speed 200
-const int Slow_Turning_Speed = 80;
+#define Default_Turning_Speed 200 // 350 ms for ~90 degrees with speed 200
+#define Slow_Turning_Speed 80
+#define Safety_Distance 10
+int Base_Speed = 70;
+long left_distance, right_distance;
 int tries;
 
 // motor control and pwn pins
@@ -18,8 +20,7 @@ int tries;
 // edge sensor
 #define Front_Left_Edge_Sensor 10
 #define Front_Right_Edge_Sensor 9
-#define Back_Left_Edge_Sensor 17  // A3
-#define Back_Right_Edge_Sensor 14  // A0
+#define Back_Edge_Sensor 14  // A0
 
 // line tracking
 #define Left_Line_Sensor 11
@@ -32,14 +33,18 @@ int tries;
 
 // servo
 #include <Servo.h>
-#define Servo_Pin 18 // A4
+#define Servo_Pin 17 // A3
 Servo servo;
 
 // ultrasonic sensor
 #include "SR04.h"
 #define Ultrasonic_Receive 12
-#define Ultrasonic_Send 13
-SR04 sr04 = SR04(Ultrasonic_Send, Ultrasonic_Receive);
+#define Left_Ultrasonic_Receive 18  // A4
+#define Left_Ultrasonic_Send 19     // A5
+#define Right_Ultrasonic_Receive 12
+#define Right_Ultrasonic_Send 13
+SR04 left_sr04 = SR04(Left_Ultrasonic_Send, Left_Ultrasonic_Receive);
+SR04 right_sr04 = SR04(Right_Ultrasonic_Send, Right_Ultrasonic_Receive);
 
 void setup() 
 {
@@ -56,9 +61,8 @@ void setup()
   //pinMode(Front_Central_Edge_Sensor, INPUT);
   pinMode(Front_Left_Edge_Sensor, INPUT);
   pinMode(Front_Right_Edge_Sensor, INPUT);
-  pinMode(Back_Left_Edge_Sensor, INPUT);
-  pinMode(Back_Right_Edge_Sensor, INPUT);
-
+  pinMode(Back_Edge_Sensor, INPUT);
+  
   // line tracking sensor
   pinMode(Left_Line_Sensor, INPUT);
   pinMode(Central_Line_Sensor, INPUT);
@@ -73,15 +77,14 @@ void setup()
 
   // motor
   motor_speed_adjust();
-  fall_and_collision_detection();
 }
 
 void loop()
 {
   Serial.print("\n");
-  
-  //fall_and_collision_detection();
-  servo_scaning_mode();
+
+  //ultra_sonic_update_distance();  // debug
+  fall_and_collision_detection();
 
   /*
   if (not following_line()) 
@@ -95,8 +98,6 @@ void loop()
     if (not adjust_light_following()) { exit(0); }; 
   }
   */
-  
-   //Serial.print(ultra_sonic_get_distance(1));
 }
 
 void fall_and_collision_detection()

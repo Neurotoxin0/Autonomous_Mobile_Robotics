@@ -29,3 +29,5 @@ void servo_scaning_mode()
     delay(15);
   }
 }
+
+//angle = servo.read();

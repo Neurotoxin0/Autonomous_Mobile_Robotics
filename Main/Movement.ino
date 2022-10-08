@@ -16,7 +16,7 @@ void move_back(int speed)
 {
   stop_movement();
   
-  if ( not back_fall_detected() )
+  if (not digitalRead(Back_Edge_Sensor))
   {
     digitalWrite(Left_Motor_Ctrl, LOW);
     analogWrite(Left_Motor_PWM, speed);
@@ -45,6 +45,18 @@ void right_turn(int speed, int time)
   stop_movement();
 }
 
+void random_turn(int input)
+{
+  int turning_direction = random(2);
+  int turning_time;
+  
+  if (input != 0) { turning_time = input; }
+  else { turning_time = random(175, 700); }
+  
+  if (turning_direction)  { left_turn(Default_Turning_Speed, turning_time); }
+  else                    { right_turn(Default_Turning_Speed, turning_time); }
+}
+
 void motor_speed_adjust()
 {
   move_front(Base_Speed);
@@ -52,7 +64,7 @@ void motor_speed_adjust()
   Serial.print(Base_Speed);
   Serial.print("\n");
   
-  while (digitalRead(Back_Left_Edge_Sensor) && digitalRead(Back_Right_Edge_Sensor) && Base_Speed < 120)
+  while ( digitalRead(Back_Edge_Sensor) && Base_Speed < 120)
   {
     Base_Speed += 5;
     Serial.print("Adjust Base Speed to: ");
