@@ -4,7 +4,7 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-#define Safety_Distance 15
+#define Safety_Distance 10
 
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
