@@ -4,10 +4,12 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-#define Default_Turning_Speed 200 // 350 ms for ~90 degrees with speed 200
-#define Slow_Turning_Speed 80
 #define Safety_Distance 15
+
+// 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
+int Default_Turning_Speed = 200;
+int Slow_Turning_Speed = 85;
 long left_distance, right_distance;
 int tries;
 
@@ -73,7 +75,7 @@ void setup()
   pinMode(Right_Light_Sensor, INPUT);
   
   // servo
-  servo_init();
+  //servo_init();
 
   // motor
   motor_speed_adjust();

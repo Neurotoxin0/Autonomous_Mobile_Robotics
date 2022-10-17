@@ -12,18 +12,22 @@ void move_front(int speed)  // @params: speed: 80 < x < 255
   analogWrite(Right_Motor_PWM, speed);
 }
 
-void move_back(int speed)
+void move_back(int speed, int time)
 {
   stop_movement();
   
-  if (not digitalRead(Back_Edge_Sensor))
-  {
+  if (can_move_back())
+  { 
     digitalWrite(Left_Motor_Ctrl, LOW);
     analogWrite(Left_Motor_PWM, speed);
     digitalWrite(Right_Motor_Ctrl, LOW);
     analogWrite(Right_Motor_PWM, speed);
+    delay(time);
+    stop_movement();
   }
 }
+
+bool can_move_back() { return not digitalRead(Back_Edge_Sensor); }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
 {
@@ -51,10 +55,16 @@ void random_turn(int input)
   int turning_time;
   
   if (input != 0) { turning_time = input; }
-  else { turning_time = random(175, 700); }
+  else { turning_time = random(300, 700); }
   
-  if (turning_direction)  { left_turn(Default_Turning_Speed, turning_time); }
-  else                    { right_turn(Default_Turning_Speed, turning_time); }
+  if (turning_direction)  
+  { 
+    left_turn(Default_Turning_Speed, turning_time); 
+  }
+  else                    
+  { 
+    right_turn(Default_Turning_Speed, turning_time); 
+  }
 }
 
 void motor_speed_adjust()
@@ -75,6 +85,8 @@ void motor_speed_adjust()
   }
   
   Base_Speed += 2;
+  //Default_Turning_Speed = Base_Speed * 3.0;
+  //Slow_Turning_Speed = Base_Speed;
   Serial.print("FINAL Base Speed: ");
   Serial.print(Base_Speed);
   Serial.print("\n");
