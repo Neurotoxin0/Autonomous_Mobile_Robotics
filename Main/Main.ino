@@ -83,7 +83,7 @@ void setup()
 
 void loop()
 {
-  Serial.print("\n");
+  //Serial.print("\n");
 
   //ultra_sonic_update_distance();  // debug
   fall_and_collision_detection();
