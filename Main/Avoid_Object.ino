@@ -10,8 +10,6 @@ void avoid_object()
   //Serial.print("avoid_object()\n");
   
   ultra_sonic_update_distance();
-
-  move_back(Base_Speed, 100);
   random_turn(0); 
   
   /*
@@ -30,20 +28,5 @@ void avoid_object()
     move_back(Base_Speed, 100);
     left_turn(Default_Turning_Speed, random(175,350)); 
   }
-  */
-    
-  /* 
-  // Measure left side distance
-  servo_to_angle(180);
-  left_distance = ultra_sonic_get_distance(0);
-    
-  // Measure right side distance
-  servo_to_angle(0);  // turn to right
-  right_distance = ultra_sonic_get_distance(0);
-    
-  if (left_distance > right_distance) { left_turn(Default_Turning_Speed, 175); }
-  else                                { right_turn(Default_Turning_Speed, 175); }
-    
-  servo_to_angle(90);
   */
 }
