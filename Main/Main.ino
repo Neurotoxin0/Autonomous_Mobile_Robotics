@@ -4,14 +4,13 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-#define Safety_Distance 10
+#define Safety_Distance 15
 
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
 int Default_Turning_Speed = 200;
 int Slow_Turning_Speed = 85;
 long left_distance, right_distance;
-int tries;
 
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
@@ -75,7 +74,7 @@ void setup()
   pinMode(Right_Light_Sensor, INPUT);
   
   // servo
-  //servo_init();
+  servo_init();
 
   // motor
   motor_speed_adjust();
@@ -83,28 +82,22 @@ void setup()
 
 void loop()
 {
-  //Serial.print("\n");
+  Serial.print("\n");
+  servo_scaning_mode();
 
-  //ultra_sonic_update_distance();  // debug
-  fall_and_collision_detection();
-
-  /*
-  if (not following_line()) 
-  { 
-    if (not adjust_line_tracking()) { exit(0); };  // if failed to adjust: exit
-  }
-  */
-  /*
-  if (not following_light()) 
-  { 
-    if (not adjust_light_following()) { exit(0); }; 
-  }
-  */
+  //fall_and_collision_detection();
+  //follow_the_line();
 }
 
 void fall_and_collision_detection()
 {
   if (front_fall_detected())      { avoid_fall(); }
   else if (collision_detected())  { avoid_object(); }
+  else                            { move_front(Base_Speed); }
+}
+
+void follow_the_line()
+{
+  if (not following_line())       { adjust_line_tracking(); }
   else                            { move_front(Base_Speed); }
 }

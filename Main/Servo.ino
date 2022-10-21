@@ -15,17 +15,15 @@ void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
 
 void servo_scaning_mode()
 {
-  for (int pos = 45; pos <= 135; pos += 3) 
+  for (int pos = 0; pos <= 180; pos += 3) 
   {
     servo.write(pos);
-    fall_and_collision_detection();
     delay(15);
   }
   
-  for (int pos = 135; pos >= 45; pos -= 3) 
+  for (int pos = 180; pos >= 0; pos -= 3) 
   {
     servo.write(pos);
-    fall_and_collision_detection();
     delay(15);
   }
 }

@@ -87,6 +87,7 @@ void motor_speed_adjust()
   Base_Speed += 2;
   //Default_Turning_Speed = Base_Speed * 3.0;
   //Slow_Turning_Speed = Base_Speed;
+  stop_movement();
   Serial.print("FINAL Base Speed: ");
   Serial.print(Base_Speed);
   Serial.print("\n");
