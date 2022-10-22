@@ -12,7 +12,19 @@ void avoid_object()
   ultra_sonic_update_distance();
   //random_turn(0); 
   
-  if ( left_distance < Safety_Distance && right_distance < Safety_Distance ) { random_turn(350); }
-  else if ( left_distance < Safety_Distance )  { right_turn(Default_Turning_Speed, random(175,350)); }
-  else if ( right_distance < Safety_Distance ) { left_turn(Default_Turning_Speed, random(175,350)); }
+  if ( left_distance < Safety_Distance && right_distance < Safety_Distance ) 
+  { 
+    move_back(Base_Speed, 200);
+    random_turn(350); 
+  }
+  else if ( left_distance < Safety_Distance )  
+  { 
+    move_back(Base_Speed, 200);
+    right_turn(Default_Turning_Speed, random(175,350)); 
+  }
+  else if ( right_distance < Safety_Distance ) 
+  { 
+    move_back(Base_Speed, 200);
+    left_turn(Default_Turning_Speed, random(175,350)); 
+  }
 }

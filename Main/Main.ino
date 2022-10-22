@@ -82,10 +82,10 @@ void setup()
 
 void loop()
 {
-  Serial.print("\n");
-  servo_scaning_mode();
-
+  //Serial.print("\n");
+  
   //fall_and_collision_detection();
+  servo_scaning_mode();
   //follow_the_line();
 }
 
