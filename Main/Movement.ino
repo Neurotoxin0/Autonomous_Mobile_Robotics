@@ -55,7 +55,7 @@ void random_turn(int input)
   int turning_time;
   
   if (input != 0) { turning_time = input; }
-  else { turning_time = random(300, 700); }
+  else { turning_time = random(175, 500); }
   
   if (turning_direction)  
   { 
@@ -84,8 +84,7 @@ void motor_speed_adjust()
     delay(750);
   }
   
-  Base_Speed += 2;
-  //Default_Turning_Speed = Base_Speed * 3.0;
+  Default_Turning_Speed = Base_Speed * 3.0;
   //Slow_Turning_Speed = Base_Speed;
   stop_movement();
   Serial.print("FINAL Base Speed: ");

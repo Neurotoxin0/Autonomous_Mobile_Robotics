@@ -4,10 +4,11 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-#define Safety_Distance 15
+#define Safety_Distance 18
+#define Minimum_Distance 5
 
 // 350 ms for ~90 degrees with speed 200, new batt
-int Base_Speed = 70;
+int Base_Speed = 65;
 int Default_Turning_Speed = 200;
 int Slow_Turning_Speed = 85;
 long left_distance, right_distance;
@@ -85,7 +86,10 @@ void loop()
   //Serial.print("\n");
   
   //fall_and_collision_detection();
+  
   servo_scaning_mode();
+  //test_mode();
+
   //follow_the_line();
 }
 
