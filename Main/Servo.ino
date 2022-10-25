@@ -31,29 +31,4 @@ void servo_scaning_mode()
     fall_and_collision_detection();
     delay(15);
   }
-}
-
-void test_mode()  // use key points
-{
-    servo.write(45);
-    delay(15);
-    fall_and_collision_detection();
-    delay(15);
-
-    servo.write(90);
-    delay(15);
-    fall_and_collision_detection();
-    delay(15);
-
-    servo.write(135);
-    delay(15);
-    fall_and_collision_detection();
-    delay(15);
-
-    servo.write(90);
-    delay(15);
-    fall_and_collision_detection();
-    delay(15);
-}
-
-//angle = servo.read();
+}//angle = servo.read();

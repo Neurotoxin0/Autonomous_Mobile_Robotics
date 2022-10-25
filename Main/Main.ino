@@ -88,7 +88,6 @@ void loop()
   //fall_and_collision_detection();
   
   servo_scaning_mode();
-  //test_mode();
 
   //follow_the_line();
 }
