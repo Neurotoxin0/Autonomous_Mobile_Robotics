@@ -2,8 +2,8 @@ void servo_init()
 {
   servo.attach(Servo_Pin);
   Serial.print(servo.attached());
-  servo_to_angle(50);
-  servo_to_angle(130);
+  servo_to_angle(45);
+  servo_to_angle(135);
   servo_to_angle(90);
 }
 
