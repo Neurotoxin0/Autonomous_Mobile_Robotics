@@ -1,5 +1,7 @@
 bool front_fall_detected(){ return digitalRead(Front_Left_Edge_Sensor) || digitalRead(Front_Right_Edge_Sensor); }
 
+bool back_fall_detected(){ return digitalRead(Back_Edge_Sensor); }
+
 void avoid_fall()
 {
   stop_movement();
@@ -9,7 +11,7 @@ void avoid_fall()
   if ( front_fall_detected() && digitalRead(Back_Edge_Sensor) ) { random_turn(0); }
 
   // front
-  else if ( front_fall_detected() )
+  else if (front_fall_detected())
   {
       move_back(Base_Speed, 100);
       random_turn(0);
@@ -37,10 +39,14 @@ void avoid_fall()
   */
   
   // back
-  else if (digitalRead(Back_Edge_Sensor))
+  else if (back_fall_detected())
   {
-      move_front(Base_Speed);
-      delay(150);
-      stop_movement();
+      if (can_move_front())
+      {
+        move_front(Base_Speed);
+        delay(150);
+        stop_movement();
+      }
+      else { random_turn(0); }
   }
 }

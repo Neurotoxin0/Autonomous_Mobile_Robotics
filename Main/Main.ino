@@ -95,9 +95,9 @@ void loop()
 
 void fall_and_collision_detection()
 {
-  if (front_fall_detected())      { avoid_fall(); }
-  else if (collision_detected())  { avoid_object(); }
-  else                            { move_front(Base_Speed); }
+  if      ( front_fall_detected() || back_fall_detected() ) { avoid_fall(); }
+  else if (collision_detected())                            { avoid_object(); }
+  else                                                      { move_front(Base_Speed); }
 }
 
 void follow_the_line()

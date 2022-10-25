@@ -7,12 +7,6 @@ void servo_init()
   servo_to_angle(90);
 }
 
-void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
-{ 
-  servo.write(angle); 
-  delay(500);
-}
-
 void servo_scaning_mode()
 {
   for (int pos = 50; pos <= 130; pos += 20) 
@@ -33,7 +27,7 @@ void servo_scaning_mode()
   }
 }
 
-void test_mode()
+void test_mode()  // use key points
 {
     servo.write(45);
     delay(15);
