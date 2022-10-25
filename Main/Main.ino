@@ -84,7 +84,7 @@ void setup()
 void loop()
 {
   //Serial.print("\n");
-  
+
   //fall_and_collision_detection();
   
   servo_scaning_mode();

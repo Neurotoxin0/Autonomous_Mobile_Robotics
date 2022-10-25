@@ -10,7 +10,7 @@ void avoid_object()
   ultra_sonic_update_distance();
   //Serial.print("avoid_object()\n");
   
-  if ( left_distance <= Safety_Distance && right_distance <= Safety_Distance ) { random_turn(350);  }
+  if ( left_distance <= Safety_Distance && right_distance <= Safety_Distance ) { random_turn(350); }
   else if ( left_distance <= Safety_Distance )  
   { 
     move_back(Base_Speed, 200);
@@ -19,6 +19,6 @@ void avoid_object()
   else if ( right_distance <= Safety_Distance ) 
   { 
     move_back(Base_Speed, 200);
-    left_turn(Default_Turning_Speed, random(175,350)); }
+    left_turn(Default_Turning_Speed, random(175,350));
   }
 }
