@@ -28,7 +28,7 @@ void move_back(int speed, int time)
     delay(time);
     stop_movement();
   }
-  else { random_turn(350); }
+  //else { random_turn(350); }
 }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
