@@ -28,6 +28,7 @@ void move_back(int speed, int time)
     delay(time);
     stop_movement();
   }
+  else { random_turn(350); }
 }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
@@ -74,7 +75,7 @@ void random_turn(int input)
   int turning_time;
   
   if (input != 0) { turning_time = input; }
-  else            { turning_time = random(175, 500); }
+  else            { turning_time = random(175, 525); }
   
   if (turning_direction)  { left_turn(Default_Turning_Speed, turning_time); }
   else                    { right_turn(Default_Turning_Speed, turning_time); }
