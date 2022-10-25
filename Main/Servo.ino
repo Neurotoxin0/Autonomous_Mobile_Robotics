@@ -15,7 +15,7 @@ void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
 
 void servo_scaning_mode()
 {
-  for (int pos = 50; pos <= 130; pos += 20) 
+  for (int pos = 45; pos <= 135; pos += 45) 
   {
     servo.write(pos);
     //delay(15);
@@ -24,7 +24,7 @@ void servo_scaning_mode()
     
   }
   
-  for (int pos = 130; pos >= 50; pos -= 20) 
+  for (int pos = 135; pos >= 45; pos -= 45) 
   {
     servo.write(pos);
     //delay(15);
