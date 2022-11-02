@@ -1,3 +1,4 @@
+/*
 void servo_init()
 {
   servo.attach(Servo_Pin);
@@ -31,4 +32,6 @@ void servo_scaning_mode()
     fall_and_collision_detection();
     delay(15);
   }
-}//angle = servo.read();
+}
+//angle = servo.read();
+*/

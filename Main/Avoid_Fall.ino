@@ -1,14 +1,13 @@
 bool front_fall_detected(){ return digitalRead(Front_Left_Edge_Sensor) || digitalRead(Front_Right_Edge_Sensor); }
-
 bool back_fall_detected(){ return digitalRead(Back_Edge_Sensor); }
 
 void avoid_fall()
 {
   stop_movement();
-  //Serial.print("avoid_fall()\n");
+  Serial.print("avoid_fall()\n");
   
   // both
-  if ( front_fall_detected() && digitalRead(Back_Edge_Sensor) ) { random_turn(0); }
+  if ( front_fall_detected() && back_fall_detected() ) { random_turn(0); }
 
   // front
   else if (front_fall_detected())

@@ -1,5 +1,7 @@
 bool can_move_front() { return not ( front_fall_detected() || collision_detected() ); }
-bool can_move_back() { return not digitalRead(Back_Edge_Sensor); }
+bool can_move_back()  { return not digitalRead(Back_Edge_Sensor); }
+bool can_turn_left()  { return not left_distance  <= Minimum_Distance; }
+bool can_turn_right() { return not right_distance <= Minimum_Distance; }
 
 void stop_movement()
 {
@@ -33,12 +35,7 @@ void move_back(int speed, int time)
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
 {
-  // detect if turn will collide with object
-  stop_movement();
-  servo.write(135);
-  ultra_sonic_update_distance();
-  
-  if (not left_distance <= Minimum_Distance) 
+  if (can_turn_left())
   {
     digitalWrite(Left_Motor_Ctrl, LOW);
     analogWrite(Left_Motor_PWM, speed);
@@ -47,17 +44,11 @@ void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x m
     delay(time);
     stop_movement();
   }
-  else { move_back(Base_Speed, 200); }  
 }
 
 void right_turn(int speed, int time)
 {
-  // detect if turn will collide with object
-  stop_movement();
-  servo.write(45);
-  ultra_sonic_update_distance();
-  
-  if (not right_distance <= Minimum_Distance) 
+  if (can_turn_right())
   {
     digitalWrite(Left_Motor_Ctrl, HIGH);
     analogWrite(Left_Motor_PWM, speed);
@@ -66,7 +57,6 @@ void right_turn(int speed, int time)
     delay(time);
     stop_movement();
   }
-  else { move_back(Base_Speed, 200); }  
 }
 
 void random_turn(int input)
@@ -98,12 +88,10 @@ void motor_speed_adjust()
     delay(750);
   }
   
-  Default_Turning_Speed = Base_Speed * 3.0;
+  //Default_Turning_Speed = Base_Speed * 3.0;
   //Slow_Turning_Speed = Base_Speed;
   stop_movement();
   Serial.print("FINAL Base Speed & Default Turing Speed: ");
   Serial.print(Base_Speed);
-  Serial.print("\t");
-  Serial.print(Default_Turning_Speed);
   Serial.print("\n");
 }

@@ -1,3 +1,4 @@
+/*
 int left_light, right_light;
 
 bool following_light() { return (digitalRead(Left_Light_Sensor) == 0) && (digitalRead(Right_Light_Sensor) == 0); }
@@ -26,3 +27,4 @@ bool adjust_light_following()
   }
   return 0;
 }
+ */
