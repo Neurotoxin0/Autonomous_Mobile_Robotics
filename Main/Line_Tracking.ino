@@ -10,22 +10,22 @@ void adjust_line_tracking()
   // Central Sensors
   if ( digitalRead(Central_Left_Line_Sensor) == 0 && digitalRead(Central_Right_Line_Sensor) == 1 ) 
   { 
-    left_turn(Slow_Turning_Speed, 100); 
+    left_turn(Slow_Turning_Speed, 100, false); 
   }
   
   if ( digitalRead(Central_Left_Line_Sensor) == 1 && digitalRead(Central_Right_Line_Sensor) == 0 ) 
   { 
-    right_turn(Slow_Turning_Speed, 100); 
+    right_turn(Slow_Turning_Speed, 100, false); 
   }
   
   // Outer Sensors
   if ( digitalRead(Left_Line_Sensor) == 0 && digitalRead(Right_Line_Sensor) == 1 ) 
   { 
-    right_turn(Slow_Turning_Speed, 350); 
+    right_turn(Slow_Turning_Speed, 350, false); 
   }
   
   if ( digitalRead(Left_Line_Sensor) == 1 && digitalRead(Right_Line_Sensor) == 0 ) 
   { 
-    left_turn(Slow_Turning_Speed, 350); 
+    left_turn(Slow_Turning_Speed, 350, false); 
   }
 }

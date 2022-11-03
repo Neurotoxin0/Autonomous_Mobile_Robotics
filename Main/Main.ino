@@ -5,7 +5,7 @@ Xinyu Ma 500943173
 */
 
 
-#define Safety_Distance 18
+#define Safety_Distance 12
 #define Minimum_Distance 5
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 65;
@@ -90,12 +90,12 @@ void setup()
 
 void loop()
 {
-  Serial.print("\n");
+  Serial.print("\n-----");
   //ultra_sonic_update_distance();
 
-  if      ( front_fall_detected() || back_fall_detected() ) { avoid_fall(); }
-  else if (collision_detected())                            { avoid_object(); }
-  //else if (not following_line())                            { adjust_line_tracking(); }
-  else                                                      { move_front(Base_Speed); }
+  if      (fall_detected())         { avoid_fall(); }
+  else if (collision_detected())    { avoid_object(); }
+  //else if (not following_line())   { adjust_line_tracking(); }
+  else                              { move_front(Base_Speed); }
   
 }

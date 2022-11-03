@@ -1,5 +1,5 @@
-bool can_move_front() { return not ( front_fall_detected() || collision_detected() ); }
-bool can_move_back()  { return not digitalRead(Back_Edge_Sensor); }
+bool can_move_front() { return not ( front_partial_fall_detected() || front_collision_detected() ) ; }
+bool can_move_back()  { return not back_fall_detected(); }
 bool can_turn_left()  { return not left_distance  <= Minimum_Distance; }
 bool can_turn_right() { return not right_distance <= Minimum_Distance; }
 
@@ -9,7 +9,7 @@ void stop_movement()
   analogWrite(Right_Motor_PWM, 0);
 }
 
-void move_front(int speed)  // @params: speed: 80 < x < 255
+void move_front(int speed)  // @speed: 80 < x < 255
 {
   digitalWrite(Left_Motor_Ctrl, HIGH);
   analogWrite(Left_Motor_PWM, speed);
@@ -33,8 +33,10 @@ void move_back(int speed, int time)
   //else { random_turn(350); }
 }
 
-void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
+void left_turn(int speed, int time, bool force)   // @params: speed: 80 < x < 255; time: x ms
 {
+  stop_movement();
+  
   if (can_turn_left())
   {
     digitalWrite(Left_Motor_Ctrl, LOW);
@@ -44,11 +46,7 @@ void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x m
     delay(time);
     stop_movement();
   }
-}
-
-void right_turn(int speed, int time)
-{
-  if (can_turn_right())
+  else if (force) // if force: if cannot turn left, force to turn right
   {
     digitalWrite(Left_Motor_Ctrl, HIGH);
     analogWrite(Left_Motor_PWM, speed);
@@ -59,16 +57,41 @@ void right_turn(int speed, int time)
   }
 }
 
-void random_turn(int input)
+void right_turn(int speed, int time, bool force)
 {
-  int turning_direction = random(2);
-  int turning_time;
+  stop_movement();
   
-  if (input != 0) { turning_time = input; }
-  else            { turning_time = random(175, 525); }
+  if (can_turn_right())
+  {
+    digitalWrite(Left_Motor_Ctrl, HIGH);
+    analogWrite(Left_Motor_PWM, speed);
+    digitalWrite(Right_Motor_Ctrl, LOW);
+    analogWrite(Right_Motor_PWM, speed);
+    delay(time);
+    stop_movement();
+  }
+  else if (force) // if force: if cannot turn right, force to turn left
+  {
+    digitalWrite(Left_Motor_Ctrl, LOW);
+    analogWrite(Left_Motor_PWM, speed);
+    digitalWrite(Right_Motor_Ctrl, HIGH);
+    analogWrite(Right_Motor_PWM, speed);
+    delay(time);
+    stop_movement();
+  }
+}
+
+void turn(int direction, int time, bool force)
+{
+  int turning_direction, turning_time;
+
+  if (direction != -1)  { turning_direction = direction; }
+  else                  { turning_direction = random(2); }
+  if (time != 0)        { turning_time = time; }
+  else                  { turning_time = random(175, 525); }
   
-  if (turning_direction)  { left_turn(Default_Turning_Speed, turning_time); }
-  else                    { right_turn(Default_Turning_Speed, turning_time); }
+  if (! turning_direction)  { left_turn(Default_Turning_Speed, turning_time, force); }
+  else                      { right_turn(Default_Turning_Speed, turning_time, force); }
 }
 
 void motor_speed_adjust()
@@ -88,8 +111,8 @@ void motor_speed_adjust()
     delay(750);
   }
   
-  //Default_Turning_Speed = Base_Speed * 3.0;
-  //Slow_Turning_Speed = Base_Speed;
+  Default_Turning_Speed = Base_Speed * 3.0;
+  Slow_Turning_Speed = Base_Speed;
   stop_movement();
   Serial.print("FINAL Base Speed & Default Turing Speed: ");
   Serial.print(Base_Speed);
