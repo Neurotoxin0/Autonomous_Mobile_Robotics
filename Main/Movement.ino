@@ -37,20 +37,11 @@ void left_turn(int speed, int time, bool force)   // @params: speed: 80 < x < 25
 {
   stop_movement();
   
-  if (can_turn_left())
+  if (can_turn_left() || force)
   {
     digitalWrite(Left_Motor_Ctrl, LOW);
     analogWrite(Left_Motor_PWM, speed);
     digitalWrite(Right_Motor_Ctrl, HIGH);
-    analogWrite(Right_Motor_PWM, speed);
-    delay(time);
-    stop_movement();
-  }
-  else if (force) // if force: if cannot turn left, force to turn right
-  {
-    digitalWrite(Left_Motor_Ctrl, HIGH);
-    analogWrite(Left_Motor_PWM, speed);
-    digitalWrite(Right_Motor_Ctrl, LOW);
     analogWrite(Right_Motor_PWM, speed);
     delay(time);
     stop_movement();
@@ -61,20 +52,11 @@ void right_turn(int speed, int time, bool force)
 {
   stop_movement();
   
-  if (can_turn_right())
+  if (can_turn_right() || force)
   {
     digitalWrite(Left_Motor_Ctrl, HIGH);
     analogWrite(Left_Motor_PWM, speed);
     digitalWrite(Right_Motor_Ctrl, LOW);
-    analogWrite(Right_Motor_PWM, speed);
-    delay(time);
-    stop_movement();
-  }
-  else if (force) // if force: if cannot turn right, force to turn left
-  {
-    digitalWrite(Left_Motor_Ctrl, LOW);
-    analogWrite(Left_Motor_PWM, speed);
-    digitalWrite(Right_Motor_Ctrl, HIGH);
     analogWrite(Right_Motor_PWM, speed);
     delay(time);
     stop_movement();

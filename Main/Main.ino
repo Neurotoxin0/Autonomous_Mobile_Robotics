@@ -11,7 +11,9 @@ Xinyu Ma 500943173
 int Base_Speed = 65;
 int Default_Turning_Speed = 200;
 int Slow_Turning_Speed = 85;
+
 long central_distance, left_distance, right_distance;
+bool is_following_line = false;
 
 
 // motor control and pwn pins
@@ -90,12 +92,21 @@ void setup()
 
 void loop()
 {
-  Serial.print("\n-----");
-  //ultra_sonic_update_distance();
+  // edge & object detection
+  if      (fall_detected())                         { avoid_fall(); }
+  else if (collision_detected())                    { avoid_object(); }
+  else                                              { move_front(Base_Speed); }
 
-  if      (fall_detected())         { avoid_fall(); }
-  else if (collision_detected())    { avoid_object(); }
-  //else if (not following_line())   { adjust_line_tracking(); }
-  else                              { move_front(Base_Speed); }
-  
+  // following line
+  if (not is_following_line)
+  { 
+    if (found_line()) { is_following_line = true; }
+  }
+  else
+  {
+    // exit case
+    if (end_of_line()) { is_following_line = false; }
+    
+    if (not on_track()){ adjust_line_tracking(); }
+  }
 }
