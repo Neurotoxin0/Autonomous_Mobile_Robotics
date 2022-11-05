@@ -92,6 +92,10 @@ void setup()
 
 void loop()
 {
+  Serial.print("Following Line: ");
+  Serial.print(is_following_line);
+  Serial.print("\n");
+  
   // edge & object detection
   if      (fall_detected())                         { is_following_line = false; avoid_fall(); }    // line following exit case: edge
   else if (collision_detected())                    { is_following_line = false; avoid_object(); }  // line following exit case: object
@@ -101,7 +105,7 @@ void loop()
   if (not is_following_line)
   { 
     // if detects line: start following the line
-    if (found_line()) { is_following_line = true; }
+    if (found_line()) { is_following_line = true; }   // TODO: should adjust the line first?
   }
   else
   {
