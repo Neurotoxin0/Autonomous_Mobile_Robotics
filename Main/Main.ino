@@ -93,20 +93,22 @@ void setup()
 void loop()
 {
   // edge & object detection
-  if      (fall_detected())                         { avoid_fall(); }
-  else if (collision_detected())                    { avoid_object(); }
+  if      (fall_detected())                         { is_following_line = false; avoid_fall(); }    // line following exit case: edge
+  else if (collision_detected())                    { is_following_line = false; avoid_object(); }  // line following exit case: object
   else                                              { move_front(Base_Speed); }
 
   // following line
   if (not is_following_line)
   { 
+    // if detects line: start following the line
     if (found_line()) { is_following_line = true; }
   }
   else
   {
-    // exit case
+    // line following exit case: line ends
     if (end_of_line()) { is_following_line = false; }
-    
+
+    // off track while following the line
     if (not on_track()){ adjust_line_tracking(); }
   }
 }
