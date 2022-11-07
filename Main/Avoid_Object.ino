@@ -22,11 +22,12 @@ void avoid_object()
       0: left
       1: right
     @time:
-      0: random degree
+      -1：random degree
+      0: continous turning
       int: turning time
   */
   
   if ( central_distance <= Safety_Distance )    { turn(-1, 350, false); }
-  else if ( left_distance <= Safety_Distance )  { move_back(Base_Speed, 200); turn(1, 0, false); }
-  else if ( right_distance <= Safety_Distance ) { move_back(Base_Speed, 200); turn(0, 0, false); }
+  else if ( left_distance <= Safety_Distance )  { move_back(Base_Speed, 200); turn(1, -1, false); }
+  else if ( right_distance <= Safety_Distance ) { move_back(Base_Speed, 200); turn(0, -1, false); }
 }

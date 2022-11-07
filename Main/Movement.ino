@@ -35,31 +35,25 @@ void move_back(int speed, int time)
 
 void left_turn(int speed, int time, bool force)   // @params: speed: 80 < x < 255; time: x ms
 {
-  stop_movement();
-  
   if (can_turn_left() || force)
   {
     digitalWrite(Left_Motor_Ctrl, LOW);
     analogWrite(Left_Motor_PWM, speed);
     digitalWrite(Right_Motor_Ctrl, HIGH);
     analogWrite(Right_Motor_PWM, speed);
-    delay(time);
-    stop_movement();
+    if (time != 0) { delay(time); stop_movement(); }
   }
 }
 
 void right_turn(int speed, int time, bool force)
 {
-  stop_movement();
-  
   if (can_turn_right() || force)
   {
     digitalWrite(Left_Motor_Ctrl, HIGH);
     analogWrite(Left_Motor_PWM, speed);
     digitalWrite(Right_Motor_Ctrl, LOW);
     analogWrite(Right_Motor_PWM, speed);
-    delay(time);
-    stop_movement();
+    if (time != 0) { delay(time); stop_movement(); }
   }
 }
 
@@ -69,7 +63,7 @@ void turn(int direction, int time, bool force)
 
   if (direction != -1)  { turning_direction = direction; }
   else                  { turning_direction = random(2); }
-  if (time != 0)        { turning_time = time; }
+  if (time != -1)        { turning_time = time; }
   else                  { turning_time = random(175, 525); }
   
   if (! turning_direction)  { left_turn(Default_Turning_Speed, turning_time, force); }
@@ -93,8 +87,6 @@ void motor_speed_adjust()
     delay(750);
   }
   
-  Default_Turning_Speed = Base_Speed * 3.0;
-  Slow_Turning_Speed = Base_Speed;
   stop_movement();
   Serial.print("FINAL Base Speed & Default Turing Speed: ");
   Serial.print(Base_Speed);

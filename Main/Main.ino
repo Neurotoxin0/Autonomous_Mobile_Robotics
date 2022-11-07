@@ -8,9 +8,8 @@ Xinyu Ma 500943173
 #define Safety_Distance 12
 #define Minimum_Distance 5
 // 350 ms for ~90 degrees with speed 200, new batt
-int Base_Speed = 65;
+int Base_Speed = 70;
 int Default_Turning_Speed = 200;
-int Slow_Turning_Speed = 85;
 
 long central_distance, left_distance, right_distance;
 bool is_following_line = false;
@@ -92,27 +91,24 @@ void setup()
 
 void loop()
 {
+  //tracking();
+  
   Serial.print("Following Line: ");
   Serial.print(is_following_line);
   Serial.print("\n");
   
   // edge & object detection
-  if      (fall_detected())                         { is_following_line = false; avoid_fall(); }    // line following exit case: edge
-  else if (collision_detected())                    { is_following_line = false; avoid_object(); }  // line following exit case: object
+  if      (fall_detected())                         { avoid_fall(); }
+  else if (collision_detected())                    { avoid_object(); }
   else                                              { move_front(Base_Speed); }
-
-  // following line
-  if (not is_following_line)
+  
+  // line following
+  if (found_line()) 
   { 
-    // if detects line: start following the line
-    if (found_line()) { is_following_line = true; }   // TODO: should adjust the line first?
+      is_following_line = true; 
   }
-  else
+  while (is_following_line)
   {
-    // line following exit case: line ends
-    if (end_of_line()) { is_following_line = false; }
-
-    // off track while following the line
-    if (not on_track()){ adjust_line_tracking(); }
+    line_following();
   }
 }
