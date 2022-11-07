@@ -12,7 +12,7 @@ int Base_Speed = 70;
 int Default_Turning_Speed = 200;
 
 long central_distance, left_distance, right_distance;
-bool is_following_line = false;
+//bool is_following_line = false;
 
 
 // motor control and pwn pins
@@ -91,24 +91,12 @@ void setup()
 
 void loop()
 {
-  //tracking();
-  
-  Serial.print("Following Line: ");
-  Serial.print(is_following_line);
-  Serial.print("\n");
-  
   // edge & object detection
   if      (fall_detected())                         { avoid_fall(); }
   else if (collision_detected())                    { avoid_object(); }
   else                                              { move_front(Base_Speed); }
   
   // line following
-  if (found_line()) 
-  { 
-      is_following_line = true; 
-  }
-  while (is_following_line)
-  {
-    line_following();
-  }
+  if (found_line()) { line_following(); }
+  Serial.print("NOT Following Line\n");
 }
