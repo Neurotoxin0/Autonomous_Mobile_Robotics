@@ -89,8 +89,12 @@ void setup()
   motor_speed_adjust();
 }
 
+int Central,Central_Left,Central_Right;
+int l_val,c_val,r_val;//define these variables
+
 void loop()
 {
+  
   // edge & object detection
   if      (fall_detected())                         { avoid_fall(); }
   else if (collision_detected())                    { avoid_object(); }
@@ -98,5 +102,5 @@ void loop()
   
   // line following
   if (found_line()) { line_following(); }
-  Serial.print("NOT Following Line\n");
+
 }

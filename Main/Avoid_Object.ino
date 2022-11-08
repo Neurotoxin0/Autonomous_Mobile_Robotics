@@ -27,7 +27,7 @@ void avoid_object()
       int: turning time
   */
   
-  if ( central_distance <= Safety_Distance )    { turn(-1, 350, false); }
-  else if ( left_distance <= Safety_Distance )  { move_back(Base_Speed, 200); turn(1, -1, false); }
-  else if ( right_distance <= Safety_Distance ) { move_back(Base_Speed, 200); turn(0, -1, false); }
+  if ( central_distance <= Safety_Distance )    { turn(-1, 350); }
+  else if ( left_distance <= Safety_Distance )  { move_back(Base_Speed, 200); turn(1, -1); }
+  else if ( right_distance <= Safety_Distance ) { move_back(Base_Speed, 200); turn(0, -1); }
 }

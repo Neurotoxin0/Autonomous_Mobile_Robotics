@@ -1,7 +1,5 @@
 bool can_move_front() { return not ( front_partial_fall_detected() || front_collision_detected() ) ; }
 bool can_move_back()  { return not back_fall_detected(); }
-bool can_turn_left()  { return not left_distance  <= Minimum_Distance; }
-bool can_turn_right() { return not right_distance <= Minimum_Distance; }
 
 void stop_movement()
 {
@@ -33,41 +31,35 @@ void move_back(int speed, int time)
   //else { random_turn(350); }
 }
 
-void left_turn(int speed, int time, bool force)   // @params: speed: 80 < x < 255; time: x ms
+void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
 {
-  if (can_turn_left() || force)
-  {
-    digitalWrite(Left_Motor_Ctrl, LOW);
-    analogWrite(Left_Motor_PWM, speed);
-    digitalWrite(Right_Motor_Ctrl, HIGH);
-    analogWrite(Right_Motor_PWM, speed);
-    if (time != 0) { delay(time); stop_movement(); }
-  }
+  digitalWrite(Left_Motor_Ctrl, LOW);
+  analogWrite(Left_Motor_PWM, speed);
+  digitalWrite(Right_Motor_Ctrl, HIGH);
+  analogWrite(Right_Motor_PWM, speed);
+  if (time != 0) { delay(time); stop_movement(); }
 }
 
-void right_turn(int speed, int time, bool force)
+void right_turn(int speed, int time)
 {
-  if (can_turn_right() || force)
-  {
-    digitalWrite(Left_Motor_Ctrl, HIGH);
-    analogWrite(Left_Motor_PWM, speed);
-    digitalWrite(Right_Motor_Ctrl, LOW);
-    analogWrite(Right_Motor_PWM, speed);
-    if (time != 0) { delay(time); stop_movement(); }
-  }
+  digitalWrite(Left_Motor_Ctrl, HIGH);
+  analogWrite(Left_Motor_PWM, speed);
+  digitalWrite(Right_Motor_Ctrl, LOW);
+  analogWrite(Right_Motor_PWM, speed);
+  if (time != 0) { delay(time); stop_movement(); }
 }
 
-void turn(int direction, int time, bool force)
+void turn(int direction, int time)
 {
   int turning_direction, turning_time;
 
   if (direction != -1)  { turning_direction = direction; }
   else                  { turning_direction = random(2); }
-  if (time != -1)        { turning_time = time; }
+  if (time != -1)       { turning_time = time; }
   else                  { turning_time = random(175, 525); }
   
-  if (! turning_direction)  { left_turn(Default_Turning_Speed, turning_time, force); }
-  else                      { right_turn(Default_Turning_Speed, turning_time, force); }
+  if (! turning_direction)  { left_turn(Default_Turning_Speed, turning_time); }
+  else                      { right_turn(Default_Turning_Speed, turning_time); }
 }
 
 void motor_speed_adjust()

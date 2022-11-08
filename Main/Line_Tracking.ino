@@ -1,4 +1,4 @@
-int Central,Central_Left,Central_Right;
+//int Central,Central_Left,Central_Right;
 
 //bool found_line() { return digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor) || on_track(); }
 //bool end_of_line() { return not digitalRead(Left_Line_Sensor) && not digitalRead(Right_Line_Sensor) && not on_track(); }
@@ -12,41 +12,38 @@ bool end_of_line() { return not found_line(); }
 
 void line_following()
 {
-  Serial.print("Following Line\n");
-
-  if (fall_detected() || collision_detected())
-  { 
-    stop_movement();
-    //is_following_line = false;
-    return ;
-  }
+  while (true)
+  {
+    //if (fall_detected() || collision_detected()) { return ; }
+     if (fall_detected()) { return ; }
     
-  Central       = digitalRead(Central_Line_Sensor);
-  Central_Left  = digitalRead(Central_Left_Line_Sensor);
-  Central_Right = digitalRead(Central_Right_Line_Sensor);
+    Central       = digitalRead(Central_Line_Sensor);
+    Central_Left  = digitalRead(Central_Left_Line_Sensor);
+    Central_Right = digitalRead(Central_Right_Line_Sensor);
 
-  if(Central == 1)
-  {
-    move_front(Base_Speed);
-    //Serial.print("front\n");
-  }
-  else
-  {
-    if(Central_Left && not Central_Right)
+    if(Central == 1)
     {
-      turn(0,50,true);
-      //Serial.print("left\n");
-    }
-    else if(not Central_Left && Central_Right)
-    {
-      turn(1,50,true);
-      //Serial.print("right\n");
+      move_front(Base_Speed);
     }
     else
     {
-      stop_movement();
-      //is_following_line = false;
-      return ;
-    }
+      if((Central_Left == 1) && (Central_Right == 0))
+      {
+        left_turn(Default_Turning_Speed, 0);
+      }
+      else if((Central_Left == 0) && (Central_Right == 1))
+      {
+        right_turn(Default_Turning_Speed, 0);
+      }
+      else
+      {
+        move_front(Base_Speed);
+        //delay(200);
+        //stop_movement();
+        return ;
+      }
+     }
+    
+    
   }
 }

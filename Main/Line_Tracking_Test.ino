@@ -1,4 +1,4 @@
-int l_val,c_val,r_val;//define these variables
+//int l_val,c_val,r_val;//define these variables
 
 void tracking()
 {
@@ -14,15 +14,22 @@ void tracking()
   {
     if((l_val == 1)&&(r_val == 0))//if only left line tracking sensor detects black trace
     {
-      turn(0,0,true);
+      digitalWrite(Left_Motor_Ctrl, LOW);
+      analogWrite(Left_Motor_PWM, 200);
+      digitalWrite(Right_Motor_Ctrl, HIGH);
+      analogWrite(Right_Motor_PWM, 200);
+    
     }
 else if((l_val == 0)&&(r_val == 1))//if only right line tracking sensor detects black trace
     {
-      turn(1,0,true);
+      digitalWrite(Left_Motor_Ctrl, HIGH);
+      analogWrite(Left_Motor_PWM, 200);
+      digitalWrite(Right_Motor_Ctrl, LOW);
+      analogWrite(Right_Motor_PWM, 200);
     }
     else// if left and right line tracking sensors detect black trace or they don’t read
     {
-      stop_movement();//car stops
+      stop_movement();
     }
   }
 }
