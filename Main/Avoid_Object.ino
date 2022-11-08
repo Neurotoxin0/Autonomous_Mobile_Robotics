@@ -12,7 +12,7 @@ bool front_collision_detected()
 void avoid_object()
 {
   move_back(Base_Speed, 200);
-  Serial.print("avoid_object()\n");
+  //Serial.print("avoid_object()\n");
   ultra_sonic_update_distance();
 
   /*

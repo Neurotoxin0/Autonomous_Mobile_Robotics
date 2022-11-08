@@ -1,4 +1,4 @@
-int Left, Right;
+int Left, Right, Back;
 
 bool fall_detected() { return front_partial_fall_detected() || back_fall_detected(); }
 bool front_both_fall_detected() { return digitalRead(Front_Left_Edge_Sensor) && digitalRead(Front_Right_Edge_Sensor); }
@@ -8,9 +8,10 @@ bool back_fall_detected() { return digitalRead(Back_Edge_Sensor); }
 void avoid_fall()
 {
   stop_movement();
-  Serial.print("avoid_fall()\n");
+  //Serial.print("avoid_fall()\n");
   Left  = digitalRead(Front_Left_Edge_Sensor);
   Right = digitalRead(Front_Right_Edge_Sensor);
+  Back  = digitalRead(Back_Edge_Sensor);
 
   /*
   function turn(direction, time) usage: 
@@ -25,15 +26,15 @@ void avoid_fall()
   */
   
   // front and back
-  if ( front_both_fall_detected() && back_fall_detected() ) { turn(-1, 350); }
+  if ( Left && Right && Back ) { turn(-1, 350); }
 
   // front
-  else if (front_both_fall_detected())            { move_back(Base_Speed, 100); turn(-1, -1); }
+  else if (Left && Right) { move_back(Base_Speed, 100); turn(-1, -1); }
   else if (Left)   { turn(1, -1); }
   else if (Right)  { turn(0, -1); }
  
   // back
-  else if (back_fall_detected())
+  else if (Back)
   {
       if (can_move_front())
       {

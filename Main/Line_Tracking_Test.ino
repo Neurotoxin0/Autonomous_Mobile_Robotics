@@ -1,4 +1,4 @@
-//int l_val,c_val,r_val;//define these variables
+int l_val,c_val,r_val;//define these variables
 
 void tracking()
 {

@@ -89,9 +89,6 @@ void setup()
   motor_speed_adjust();
 }
 
-int Central,Central_Left,Central_Right;
-int l_val,c_val,r_val;//define these variables
-
 void loop()
 {
   
@@ -101,6 +98,10 @@ void loop()
   else                                              { move_front(Base_Speed); }
   
   // line following
-  if (found_line()) { line_following(); }
+  if (found_line()) 
+  { 
+    //Serial.print("Enter Line Following\n");
+    line_following(); 
+  }
 
 }
