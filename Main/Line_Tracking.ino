@@ -3,9 +3,11 @@ bool on_track()   { return digitalRead(Central_Line_Sensor) && digitalRead(Centr
 bool found_line() { return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor); }
 bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor) || digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor); };
 
+//bool if_exit;
 void line_following()
 {
   detection_count = 0;
+  //timer.tick();
   
   while (true)
   {
@@ -16,6 +18,11 @@ void line_following()
       //if (fall_detected() || collision_detected()) { return ; }
       detection_count = 0;
     }
+
+    /*timer.every(1000, detection);
+    if (if_exit) return ;*/
+
+    
     //Serial.print("\tdetection\t");
     Central       = digitalRead(Central_Line_Sensor);
     Central_Left  = digitalRead(Central_Left_Line_Sensor);
@@ -23,12 +30,6 @@ void line_following()
     Outer_Left    = digitalRead(Left_Line_Sensor);
     Outer_Right   = digitalRead(Right_Line_Sensor);
     
-    /*Serial.print(Central);
-    Serial.print(Central_Left);
-    Serial.print(Central_Right);
-    Serial.print(Outer_Left);
-    Serial.print(Outer_Right);
-    Serial.print("\n");*/
     if(Central == 1) { move_front(Base_Speed); }
     else
     {
@@ -54,8 +55,21 @@ void line_following()
          if (not on_the_line()) { return ; }
       }
     }
-  /*Serial.print("Count: ");
-  Serial.print(count);*/
   detection_count ++;  
   }
 }
+
+/*
+bool detection()
+{
+  if (fall_detected() || collision_detected()) 
+  {
+    if_exit = true;
+    return 1;
+  }
+  else 
+  {
+    if_exit = false;
+    return 0;
+  }
+}*/

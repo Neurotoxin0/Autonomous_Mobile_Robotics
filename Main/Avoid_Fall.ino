@@ -26,12 +26,12 @@ void avoid_fall()
   */
   
   // front and back
-  if ( Left && Right && Back ) { turn(-1, 350); }
+  if ( Left && Right && Back ) { turn(-1, 350, -1); }
 
   // front
-  else if (Left && Right) { move_back(Base_Speed, 100); turn(-1, -1); }
-  else if (Left)   { turn(1, -1); }
-  else if (Right)  { turn(0, -1); }
+  else if (Left && Right) { move_back(Base_Speed, 100); turn(-1, -1, -1); }
+  else if (Left)   { turn(1, -1, -1); }
+  else if (Right)  { turn(0, -1, -1); }
  
   // back
   else if (Back)
@@ -42,6 +42,6 @@ void avoid_fall()
         delay(150);
         stop_movement();
       }
-      else { turn(-1, 350); }
+      else { turn(-1, 350, -1); }
   }
 }

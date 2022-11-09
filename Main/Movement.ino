@@ -37,7 +37,7 @@ void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x m
   analogWrite(Left_Motor_PWM, speed);
   digitalWrite(Right_Motor_Ctrl, HIGH);
   analogWrite(Right_Motor_PWM, speed);
-  if (time != 0) { delay(time); stop_movement(); }
+  if (time != 0) { delay(time); stop_movement(); fake_timer = true;}
 }
 
 void right_turn(int speed, int time)
@@ -46,20 +46,22 @@ void right_turn(int speed, int time)
   analogWrite(Left_Motor_PWM, speed);
   digitalWrite(Right_Motor_Ctrl, LOW);
   analogWrite(Right_Motor_PWM, speed);
-  if (time != 0) { delay(time); stop_movement(); }
+  if (time != 0) { delay(time); stop_movement(); fake_timer = true;}
 }
 
-void turn(int direction, int time)
+void turn(int direction, int time, int speed)
 {
-  int turning_direction, turning_time;
+  int turning_direction, turning_time, turning_speed;
 
   if (direction != -1)  { turning_direction = direction; }
   else                  { turning_direction = random(2); }
   if (time != -1)       { turning_time = time; }
   else                  { turning_time = random(175, 525); }
+  if (speed == -1)       { turning_speed = Default_Turning_Speed; }
+  else                  { turning_speed = speed; }
   
-  if (! turning_direction)  { left_turn(Default_Turning_Speed, turning_time); }
-  else                      { right_turn(Default_Turning_Speed, turning_time); }
+  if (! turning_direction)  { left_turn(turning_speed, turning_time); }
+  else                      { right_turn(turning_speed, turning_time); }
 }
 
 void motor_speed_adjust()
