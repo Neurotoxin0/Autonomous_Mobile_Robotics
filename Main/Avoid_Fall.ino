@@ -13,25 +13,13 @@ void avoid_fall()
   Right = digitalRead(Front_Right_Edge_Sensor);
   Back  = digitalRead(Back_Edge_Sensor);
 
-  /*
-  function turn(direction, time) usage: 
-    @direction:
-      -1: random direction
-      0: left
-      1: right
-    @time:
-      -1：random degree
-      0: continous turning
-      int: turning time
-  */
-  
   // front and back
   if ( Left && Right && Back ) { turn(-1, 350, -1); }
 
   // front
   else if (Left && Right) { move_back(Base_Speed, 100); turn(-1, -1, -1); }
-  else if (Left)   { turn(1, -1, -1); }
-  else if (Right)  { turn(0, -1, -1); }
+  else if (Left)          { turn(1, -1, -1); }
+  else if (Right)         { turn(0, -1, -1); }
  
   // back
   else if (Back)

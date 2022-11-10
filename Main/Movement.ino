@@ -28,7 +28,7 @@ void move_back(int speed, int time)
     delay(time);
     stop_movement();
   }
-  //else { random_turn(350); }
+  //else { turn(-1,-1,-1); }
 }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
@@ -37,7 +37,7 @@ void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x m
   analogWrite(Left_Motor_PWM, speed);
   digitalWrite(Right_Motor_Ctrl, HIGH);
   analogWrite(Right_Motor_PWM, speed);
-  if (time != 0) { delay(time); stop_movement(); fake_timer = true;}
+  if (time != 0) { delay(time); stop_movement(); }
 }
 
 void right_turn(int speed, int time)
@@ -46,9 +46,23 @@ void right_turn(int speed, int time)
   analogWrite(Left_Motor_PWM, speed);
   digitalWrite(Right_Motor_Ctrl, LOW);
   analogWrite(Right_Motor_PWM, speed);
-  if (time != 0) { delay(time); stop_movement(); fake_timer = true;}
+  if (time != 0) { delay(time); stop_movement(); }
 }
 
+/*
+turn(direction, time, speed) usage: 
+  @direction:
+    -1: random direction
+    0: left
+    1: right
+  @time:
+    -1：random degree
+    0: continous turning
+    int: given turning time
+  @speed:
+    -1: Default turning speed
+    int: given turining speed
+*/
 void turn(int direction, int time, int speed)
 {
   int turning_direction, turning_time, turning_speed;
@@ -57,8 +71,8 @@ void turn(int direction, int time, int speed)
   else                  { turning_direction = random(2); }
   if (time != -1)       { turning_time = time; }
   else                  { turning_time = random(175, 525); }
-  if (speed == -1)       { turning_speed = Default_Turning_Speed; }
-  else                  { turning_speed = speed; }
+  if (speed != -1)      { turning_speed = speed; }
+  else                  { turning_speed = Default_Turning_Speed; }
   
   if (! turning_direction)  { left_turn(turning_speed, turning_time); }
   else                      { right_turn(turning_speed, turning_time); }

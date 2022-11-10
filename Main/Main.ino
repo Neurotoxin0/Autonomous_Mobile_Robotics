@@ -10,10 +10,8 @@ Xinyu Ma 500943173
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
 int Default_Turning_Speed = 200;
-
 long central_distance, left_distance, right_distance;
-//bool is_following_line = false;
-bool fake_timer;
+
 
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
@@ -102,27 +100,6 @@ void loop()
   else                                              { move_front(Base_Speed); }
   
   // line following
-  if (digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor)) { enter_line(); }
-  if (found_line()) { line_following(); }
-
-}
-
-void enter_line() // perpendicular to the line
-{
-  move_front(Base_Speed);
-  delay(850);
-  stop_movement();
-
-  // TODO: remove fake_timer 
-  
-  while (true) 
-  { 
-    turn(-1,-1, 160); // rotate 360 degree at speed 120
-    if (on_the_line()) 
-    { 
-      stop_movement(); 
-      break; 
-    }
-  }
-  
+  if (digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor)) { enter_line(); }  // indirect entry; line around
+  if (found_line()) { line_following(); }                                                 // direct entry
 }
