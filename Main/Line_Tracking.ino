@@ -8,7 +8,7 @@ void line_following()
 {
   fall_detection_count = 0;
   obj_detection_count = 0;
-  //timer.tick();
+  //move_front(Base_Speed);
   
   while (true)
   {
@@ -18,14 +18,15 @@ void line_following()
       fall_detection_count = 0;
     }
     
-    if (obj_detection_count == 10000)
+    /*
+    if (obj_detection_count == 15000)
     {
       stop_movement();
       if (central_sr04.Distance() <= Safety_Distance) { return ; }
       obj_detection_count = 0;
       move_front(Base_Speed);
     }
-     
+     */
   
     //Serial.print("\tdetection\t");
     Central       = digitalRead(Central_Line_Sensor);
