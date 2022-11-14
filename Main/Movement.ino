@@ -15,6 +15,21 @@ void move_front(int speed)  // @speed: 80 < x < 255
   analogWrite(Right_Motor_PWM, speed);
 }
 
+void move_front_with_detection(int speed, int times) // @time: how many times
+{
+  for (int i = 0; i < times; i++)
+  {
+    if      (fall_detected()) { avoid_fall(); }
+    else if (collision_detected()) { avoid_object(); }
+    else           
+    { 
+      move_front(Base_Speed); 
+      delay(400);
+      stop_movement();
+    }
+  }
+}
+
 void move_back(int speed, int time)
 {
   stop_movement();
@@ -28,7 +43,7 @@ void move_back(int speed, int time)
     delay(time);
     stop_movement();
   }
-  //else { turn(-1,-1,-1); }
+  //else { random_turn(350); }
 }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
@@ -49,20 +64,6 @@ void right_turn(int speed, int time)
   if (time != 0) { delay(time); stop_movement(); }
 }
 
-/*
-turn(direction, time, speed) usage: 
-  @direction:
-    -1: random direction
-    0: left
-    1: right
-  @time:
-    -1：random degree
-    0: continous turning
-    int: given turning time
-  @speed:
-    -1: Default turning speed
-    int: given turining speed
-*/
 void turn(int direction, int time, int speed)
 {
   int turning_direction, turning_time, turning_speed;
@@ -71,8 +72,8 @@ void turn(int direction, int time, int speed)
   else                  { turning_direction = random(2); }
   if (time != -1)       { turning_time = time; }
   else                  { turning_time = random(175, 525); }
-  if (speed != -1)      { turning_speed = speed; }
-  else                  { turning_speed = Default_Turning_Speed; }
+  if (speed == -1)       { turning_speed = Default_Turning_Speed; }
+  else                  { turning_speed = speed; }
   
   if (! turning_direction)  { left_turn(turning_speed, turning_time); }
   else                      { right_turn(turning_speed, turning_time); }
