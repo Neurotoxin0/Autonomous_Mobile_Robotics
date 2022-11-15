@@ -52,7 +52,16 @@ void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x m
   analogWrite(Left_Motor_PWM, speed);
   digitalWrite(Right_Motor_Ctrl, HIGH);
   analogWrite(Right_Motor_PWM, speed);
-  if (time != 0) { delay(time); stop_movement(); }
+  if (time != 0 && time != -1) { delay(time); stop_movement(); }
+}
+
+void left_forward(int speed, int time)
+{
+  digitalWrite(Left_Motor_Ctrl, HIGH);
+  analogWrite(Left_Motor_PWM, 0);
+  digitalWrite(Right_Motor_Ctrl, HIGH);
+  analogWrite(Right_Motor_PWM, speed);
+  if (time != 0 && time != -1) { delay(time); stop_movement(); }
 }
 
 void right_turn(int speed, int time)
@@ -61,7 +70,16 @@ void right_turn(int speed, int time)
   analogWrite(Left_Motor_PWM, speed);
   digitalWrite(Right_Motor_Ctrl, LOW);
   analogWrite(Right_Motor_PWM, speed);
-  if (time != 0) { delay(time); stop_movement(); }
+  if (time != 0 && time != -1) { delay(time); stop_movement(); }
+}
+
+void right_forward(int speed, int time)
+{
+  digitalWrite(Left_Motor_Ctrl, HIGH);
+  analogWrite(Left_Motor_PWM, speed);
+  digitalWrite(Right_Motor_Ctrl, HIGH);
+  analogWrite(Right_Motor_PWM, 0);
+  if (time != 0 && time != -1) { delay(time); stop_movement(); }
 }
 
 void turn(int direction, int time, int speed)

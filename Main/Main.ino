@@ -10,6 +10,7 @@ Xinyu Ma 500943173
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
 int Default_Turning_Speed = 200;
+long timer;
 
 long central_distance, left_distance, right_distance;
 //bool is_following_line = false;
@@ -94,7 +95,6 @@ void setup()
 
 void loop()
 {
-  
   // edge & object detection
   if      (fall_detected())                         { avoid_fall(); }
   else if (collision_detected())                    { avoid_object(); }
@@ -103,7 +103,6 @@ void loop()
   // line following
   if (digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
   if (found_line()) { line_following(); }
-
 }
 
 void enter_line() // perpendicular to the line
