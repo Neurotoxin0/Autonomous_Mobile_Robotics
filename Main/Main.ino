@@ -5,12 +5,12 @@ Xinyu Ma 500943173
 */
 
 
-#define Safety_Distance 12
+#define Safety_Distance 18
 #define Minimum_Distance 5
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
 int Default_Turning_Speed = 200;
-long timer;
+long timer1, timer2;
 
 long central_distance, left_distance, right_distance;
 //bool is_following_line = false;
@@ -101,7 +101,8 @@ void loop()
   else                                              { move_front(Base_Speed); }
   
   // line following
-  if (not fall_detected() && digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
+  //if (not fall_detected() && digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
+  if (digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
   if (found_line()) { line_following(); }
 }
 

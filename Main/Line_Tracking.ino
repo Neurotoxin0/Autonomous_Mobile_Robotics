@@ -7,24 +7,33 @@ bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Centr
 void line_following()
 {
   fall_detection_count = 0;
-  timer = millis();
+  back_count = 0;
+  timer1 = millis();
+  timer2 = millis();
   //move_front(Base_Speed);
   
   while (true)
   {
+    if ((millis() - timer2) >= 5000)
+    {
+      back_count = 0;
+      timer2 = millis();
+    }
+    
     if (fall_detection_count == 5)
     {
       if (fall_detected()) { return ; }
       fall_detection_count = 0;
     }
     
-    if ((millis() - timer) >= 1200)
+    if ((millis() - timer1) >= 1200)
     {
       stop_movement();
-      
-      if (collision_detected()) { return ; }
+
+      //if (central_sr04.Distance() <= Safety_Distance) {avoid_object(); return ;}
+      if (collision_detected()) { turn(-1, 350, -1); return ; }
       move_front(Base_Speed);
-      timer = millis();
+      timer1 = millis();
     }
     
     Central       = digitalRead(Central_Line_Sensor);
@@ -58,8 +67,13 @@ void line_following()
       }
       else
       {   
-         move_back(100, 100); 
-         turn(1, 75, -1);
+         if (back_count <= 50)
+         {
+          move_back(200, 65); 
+          turn(1, 60, -1);
+         }
+         else { move_front(Base_Speed); }
+         
          if (not on_the_line()) { return ; }
       }
     }
