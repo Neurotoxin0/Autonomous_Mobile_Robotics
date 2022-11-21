@@ -101,7 +101,7 @@ void loop()
   else                                              { move_front(Base_Speed); }
   
   // line following
-  if (digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
+  if (not fall_detected() && digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
   if (found_line()) { line_following(); }
 }
 

@@ -115,6 +115,7 @@ void motor_speed_adjust()
   }
   
   stop_movement();
+  Base_Speed += 5;
   Serial.print("FINAL Base Speed & Default Turing Speed: ");
   Serial.print(Base_Speed);
   Serial.print("\n");

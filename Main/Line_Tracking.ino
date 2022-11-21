@@ -1,10 +1,9 @@
-int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, fall_detection_count;
+int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, fall_detection_count, back_count;
 bool on_track()   { return digitalRead(Central_Line_Sensor) && digitalRead(Central_Left_Line_Sensor) && digitalRead(Central_Right_Line_Sensor); }
 bool found_line() { return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor); }
 bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor) || digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor); };
 
 
-//bool if_exit;
 void line_following()
 {
   fall_detection_count = 0;
@@ -27,8 +26,7 @@ void line_following()
       move_front(Base_Speed);
       timer = millis();
     }
-  
-    //Serial.print("\tdetection\t");
+    
     Central       = digitalRead(Central_Line_Sensor);
     Central_Left  = digitalRead(Central_Left_Line_Sensor);
     Central_Right = digitalRead(Central_Right_Line_Sensor);
@@ -60,11 +58,11 @@ void line_following()
       }
       else
       {   
-         move_back(200, 25);
+         move_back(100, 100); 
          turn(1, 75, -1);
          if (not on_the_line()) { return ; }
       }
     }
-    fall_detection_count ++;  
+  fall_detection_count ++;  
   }
 }
