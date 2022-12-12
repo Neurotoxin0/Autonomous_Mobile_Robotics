@@ -4,15 +4,15 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-#define Slow_Down_Distance 15
-#define Safety_Distance 8
-#define Minimum_Distance 3
+#define Safety_Distance 40
+#define Minimum_Distance 25
 // 350 ms for ~90 degrees with speed 200, new batt
-int Base_Speed = 70;
+int Base_Speed = 65;
 int Default_Turning_Speed = 200;
 long timer1, timer2;
 
 int lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
+int mode = 0; // 0: line-following, default; 1: parking
 long central_distance;
 
 //18 A4
@@ -89,19 +89,9 @@ void setup()
 
 void loop()
 {
-  Serial.print("lane: ");
-  Serial.print(lane);
-  Serial.print("\n");
+  if (!mode) line_following();
+  else parking();
   
-  // edge & object detection
-  //if      (fall_detected())                         { avoid_fall(); }
-  //if (collision_detected())                    { avoid_object(); }
-  //else                                              { move_front(Base_Speed); }
-  
-  // line following
-  //if (not fall_detected() && digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
-  //if (digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
-  line_following();
 }
 
 

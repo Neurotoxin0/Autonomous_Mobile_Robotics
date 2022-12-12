@@ -1,4 +1,4 @@
-int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, fall_detection_count, back_count;
+int Central, Central_Left, Central_Right, Outer_Left, Outer_Right;
 bool exit_function = false;
 bool on_track()   { return digitalRead(Central_Line_Sensor) && digitalRead(Central_Left_Line_Sensor) && digitalRead(Central_Right_Line_Sensor); }
 bool found_line() { return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor); }
@@ -7,77 +7,98 @@ bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Centr
 
 void line_following()
 {
-  back_count = 0;
-  timer1 = millis();
-  timer2 = millis();
-  int exit_line = 0;
-  
-  while (!exit_function && lane != -1)
-  {
-    if ((millis() - timer2) >= 5000)
-    {
-      back_count = 0;
-      timer2 = millis();
-    }
-    
-    if ((millis() - timer1) >= 1200)
-    {
-      stop_movement();
+    timer1 = millis();
+    //timer2 = millis();
 
-      //if (central_sr04.Distance() <= Safety_Distance) {avoid_object(); return ;}
-      if (central_sr04.Distance() <= 10) // change lane here
-      { 
-        switch_lane();
-      }
-      else {move_front(Base_Speed);}
-      timer1 = millis();
-    }
-    
-    Central       = digitalRead(Central_Line_Sensor);
-    Central_Left  = digitalRead(Central_Left_Line_Sensor);
-    Central_Right = digitalRead(Central_Right_Line_Sensor);
-    Outer_Left    = digitalRead(Left_Line_Sensor);
-    Outer_Right   = digitalRead(Right_Line_Sensor);
-    
-    if(Central == 1) { move_front(Base_Speed); }
-    else
-    {
-      if ((Outer_Left == 1) && (Outer_Right == 0))
+    while (!exit_function)
+    { 
+      if ((millis() - timer1) >= 1200)
       {
-        left_turn(Default_Turning_Speed, 0);
-        //left_forward(Default_Turning_Speed,0);
+        stop_movement();
+        ultra_sonic_update_distance();
+
+        if (central_distance <= Safety_Distance)
+        {
+          if (central_distance > Minimum_Distance)
+          {
+            Base_Speed = 57;
+            //Serial.print("Slow Down\n");
+          }
+          else
+          {
+            Base_Speed = 0;
+            //Serial.print("Stop\n");
+          }
+        }
+        else if (central_distance <= 1000)
+        {
+          Base_Speed = 67;
+          //Serial.print("Normal\n");
+        }
+        
+        timer1 = millis();
+        move_front(Base_Speed);
       }
-      else if ((Outer_Left == 0) && (Outer_Right == 1)) 
+
+      /*
+      if ((millis() - timer3) >= 1000)
       {
-        right_turn(Default_Turning_Speed, 0);
-        //right_forward(Default_Turning_Speed,0);
+        exit_function = true;
+        ...
       }
-      else if((Central_Left == 1) && (Central_Right == 0))
-      {
-        left_turn(Default_Turning_Speed, 0);
-        //left_forward(Default_Turning_Speed,0);
-      }
-      else if((Central_Left == 0) && (Central_Right == 1))
-      {
-        right_turn(Default_Turning_Speed, 0);
-        //right_forward(Default_Turning_Speed,0);
-      }
+      */
+      
+      Central       = digitalRead(Central_Line_Sensor);
+      Central_Left  = digitalRead(Central_Left_Line_Sensor);
+      Central_Right = digitalRead(Central_Right_Line_Sensor);
+      Outer_Left    = digitalRead(Left_Line_Sensor);
+      Outer_Right   = digitalRead(Right_Line_Sensor);
+      
+      if(Central == 1) { move_front(Base_Speed); }
       else
-      {   
-         /*
-        if (back_count <= 50)
-         {
-          move_back(200, 65); 
-          turn(1, 60, -1);
-         }
-         else { move_front(Base_Speed); }
-         
-         if (not on_the_line()) { return ; }
-         */
+      {
+        if ((Outer_Left == 1) && (Outer_Right == 0))
+        {
+          left_turn(Default_Turning_Speed, 0);
+          //left_forward(Default_Turning_Speed,0);
+        }
+        else if ((Outer_Left == 0) && (Outer_Right == 1)) 
+        {
+          right_turn(Default_Turning_Speed, 0);
+          //right_forward(Default_Turning_Speed,0);
+        }
+        
+        else if((Central_Left == 1) && (Central_Right == 0))
+        {
+          left_turn(Default_Turning_Speed, 0);
+          //left_forward(Default_Turning_Speed,0);
+        }
+        else if((Central_Left == 0) && (Central_Right == 1))
+        {
+          right_turn(Default_Turning_Speed, 0);
+          //right_forward(Default_Turning_Speed,0);
+        }
+        else
+        {
+          //move_back(Default_Turning_Speed, 30); 
+          //turn(1, 45, -1);
+          
+          /*
+          Serial.print("CL: ");
+          Serial.print(Central_Left);
+          Serial.print(" CC: ");
+          Serial.print(Central);
+          Serial.print("CR: ");
+          Serial.print(Central_Right);
+          Serial.print("L: ");
+          Serial.print(Outer_Left);
+          Serial.print("R: ");
+          Serial.print(Outer_Right);
+          Serial.print("\n");
+          */
+        }
       }
     }
-  fall_detection_count ++;  
-  }
 }
 
 void switch_lane()
