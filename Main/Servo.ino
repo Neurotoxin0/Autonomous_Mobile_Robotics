@@ -1,4 +1,3 @@
-/*
 void servo_init()
 {
   servo.attach(Servo_Pin);
@@ -14,6 +13,7 @@ void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
   delay(500);
 }
 
+/*
 void servo_scaning_mode()
 {
   for (int pos = 45; pos <= 135; pos += 45) 

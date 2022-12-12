@@ -4,17 +4,21 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-
-#define Safety_Distance 18
-#define Minimum_Distance 5
+#define Slow_Down_Distance 15
+#define Safety_Distance 8
+#define Minimum_Distance 3
 // 350 ms for ~90 degrees with speed 200, new batt
 int Base_Speed = 70;
 int Default_Turning_Speed = 200;
 long timer1, timer2;
 
-long central_distance, left_distance, right_distance;
-//bool is_following_line = false;
+int lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
+long central_distance;
 
+//18 A4
+//19 A5
+//15 A1
+//16 A2   
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
 #define Left_Motor_PWM 5
@@ -35,28 +39,18 @@ long central_distance, left_distance, right_distance;
 
 // ultrasonic sensor
 #include "SR04.h"
-#define Central_Ultrasonic_Receive 18 // A4
-#define Central_Ultrasonic_Send 19    // A5
-#define Left_Ultrasonic_Receive 12
-#define Left_Ultrasonic_Send 13
-#define Right_Ultrasonic_Receive 15   // A1
-#define Right_Ultrasonic_Send 16      // A2
+#define Central_Ultrasonic_Receive 12
+#define Central_Ultrasonic_Send 13
 SR04 central_sr04 = SR04(Central_Ultrasonic_Send, Central_Ultrasonic_Receive);
-SR04 left_sr04 = SR04(Left_Ultrasonic_Send, Left_Ultrasonic_Receive);
-SR04 right_sr04 = SR04(Right_Ultrasonic_Send, Right_Ultrasonic_Receive);
 
 // light sensor
 //#define Left_Light_Sensor 15  // A1
 //#define Right_Light_Sensor 16 // A2
 
 // servo
-//#include <Servo.h>
-//#define Servo_Pin 17 // A3
-//Servo servo;
-
-// timer
-//#include <arduino-timer.h>
-//auto timer = timer_create_default();
+#include <Servo.h>
+#define Servo_Pin 18
+Servo servo;
 
 
 void setup() 
@@ -87,24 +81,29 @@ void setup()
   //pinMode(Right_Light_Sensor, INPUT);
   
   // servo
-  //servo_init();
+  servo_init();
 
   // motor
-  motor_speed_adjust();
+  //motor_speed_adjust();
 }
 
 void loop()
 {
+  Serial.print("lane: ");
+  Serial.print(lane);
+  Serial.print("\n");
+  
   // edge & object detection
-  if      (fall_detected())                         { avoid_fall(); }
-  else if (collision_detected())                    { avoid_object(); }
-  else                                              { move_front(Base_Speed); }
+  //if      (fall_detected())                         { avoid_fall(); }
+  //if (collision_detected())                    { avoid_object(); }
+  //else                                              { move_front(Base_Speed); }
   
   // line following
   //if (not fall_detected() && digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
-  if (digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
-  if (found_line()) { line_following(); }
+  //if (digitalRead(Left_Line_Sensor) && digitalRead(Right_Line_Sensor)) { enter_line(); }
+  line_following();
 }
+
 
 void enter_line() // perpendicular to the line
 {

@@ -1,4 +1,5 @@
 int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, fall_detection_count, back_count;
+bool exit_function = false;
 bool on_track()   { return digitalRead(Central_Line_Sensor) && digitalRead(Central_Left_Line_Sensor) && digitalRead(Central_Right_Line_Sensor); }
 bool found_line() { return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor); }
 bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor) || digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor); };
@@ -6,13 +7,12 @@ bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Centr
 
 void line_following()
 {
-  fall_detection_count = 0;
   back_count = 0;
   timer1 = millis();
   timer2 = millis();
-  //move_front(Base_Speed);
+  int exit_line = 0;
   
-  while (true)
+  while (!exit_function && lane != -1)
   {
     if ((millis() - timer2) >= 5000)
     {
@@ -20,19 +20,16 @@ void line_following()
       timer2 = millis();
     }
     
-    if (fall_detection_count == 5)
-    {
-      if (fall_detected()) { return ; }
-      fall_detection_count = 0;
-    }
-    
     if ((millis() - timer1) >= 1200)
     {
       stop_movement();
 
       //if (central_sr04.Distance() <= Safety_Distance) {avoid_object(); return ;}
-      if (collision_detected()) { turn(-1, 350, -1); return ; }
-      move_front(Base_Speed);
+      if (central_sr04.Distance() <= 10) // change lane here
+      { 
+        switch_lane();
+      }
+      else {move_front(Base_Speed);}
       timer1 = millis();
     }
     
@@ -67,7 +64,8 @@ void line_following()
       }
       else
       {   
-         if (back_count <= 50)
+         /*
+        if (back_count <= 50)
          {
           move_back(200, 65); 
           turn(1, 60, -1);
@@ -75,8 +73,26 @@ void line_following()
          else { move_front(Base_Speed); }
          
          if (not on_the_line()) { return ; }
+         */
       }
     }
   fall_detection_count ++;  
   }
+}
+
+void switch_lane()
+{
+  if (lane == 0)  // inner
+  {
+    turn(0, 175, -1);
+    lane = 1;
+  }
+  else if (lane == 1) // outter
+  {
+    turn(1, 175, -1);
+    lane = 0;
+  }
+   
+   move_front(Base_Speed);
+   delay(150);
 }

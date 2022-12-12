@@ -1,5 +1,5 @@
-bool can_move_front() { return not ( front_partial_fall_detected() || front_collision_detected() ) ; }
-bool can_move_back()  { return not back_fall_detected(); }
+//bool can_move_front() { return not ( front_partial_fall_detected() || front_collision_detected() ) ; }
+//bool can_move_front() { return not  front_collision_detected(); }
 
 void stop_movement()
 {
@@ -15,12 +15,13 @@ void move_front(int speed)  // @speed: 80 < x < 255
   analogWrite(Right_Motor_PWM, speed);
 }
 
+
 void move_front_with_detection(int speed, int times) // @time: how many times
 {
   for (int i = 0; i < times; i++)
   {
-    if      (fall_detected()) { avoid_fall(); }
-    else if (collision_detected()) { avoid_object(); }
+    //if      (fall_detected()) { avoid_fall(); }
+    if (collision_detected()) { avoid_object(); }
     else           
     { 
       move_front(Base_Speed); 
@@ -30,10 +31,19 @@ void move_front_with_detection(int speed, int times) // @time: how many times
   }
 }
 
+
 void move_back(int speed, int time)
 {
   stop_movement();
-  
+
+  digitalWrite(Left_Motor_Ctrl, LOW);
+  analogWrite(Left_Motor_PWM, speed);
+  digitalWrite(Right_Motor_Ctrl, LOW);
+  analogWrite(Right_Motor_PWM, speed);
+  delay(time);
+  stop_movement();
+
+  /*
   if (can_move_back())
   { 
     digitalWrite(Left_Motor_Ctrl, LOW);
@@ -44,6 +54,7 @@ void move_back(int speed, int time)
     stop_movement();
   }
   //else { random_turn(350); }
+  */
 }
 
 void left_turn(int speed, int time)   // @params: speed: 80 < x < 255; time: x ms
@@ -97,6 +108,7 @@ void turn(int direction, int time, int speed)
   else                      { right_turn(turning_speed, turning_time); }
 }
 
+/*
 void motor_speed_adjust()
 {
   move_front(Base_Speed);
@@ -120,3 +132,4 @@ void motor_speed_adjust()
   Serial.print(Base_Speed);
   Serial.print("\n");
 }
+*/
