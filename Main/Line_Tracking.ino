@@ -1,60 +1,54 @@
-int Central, Central_Left, Central_Right, Outer_Left, Outer_Right;
-bool exit_function = false;
-bool on_track()   { return digitalRead(Central_Line_Sensor) && digitalRead(Central_Left_Line_Sensor) && digitalRead(Central_Right_Line_Sensor); }
-bool found_line() { return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor); }
-bool on_the_line(){ return digitalRead(Central_Line_Sensor) || digitalRead(Central_Left_Line_Sensor) || digitalRead(Central_Right_Line_Sensor) || digitalRead(Left_Line_Sensor) || digitalRead(Right_Line_Sensor); };
-
+int stop_count;
 
 void line_following()
 {
-    timer1 = millis();
-    //timer2 = millis();
+    Timer1 = millis();
+    Timer2 = millis();
+    //Timer3 = millis();
+    stop_count = 0;
 
-    while (!exit_function)
+    while (Mode == 0)
     { 
-      if ((millis() - timer1) >= 1200)
+      // Obj Detection
+      if ((millis() - Timer1) >= 1200)
       {
         stop_movement();
-        ultra_sonic_update_distance();
+        adjust_speed();
+        move_front(Base_Speed);
+        Timer1 = millis();
+      }
 
-        if (central_distance <= Safety_Distance)
+      // Switch Lane & Detect Light
+      if ((millis() - Timer2) >= 800)
+      {
+        // Switch lane
+        if (Base_Speed == 0)
         {
-          if (central_distance > Minimum_Distance)
+          if (stop_count < 5) stop_count ++;
+          else 
           {
-            Base_Speed = 57;
-            //Serial.print("Slow Down\n");
-          }
-          else
-          {
-            Base_Speed = 0;
-            //Serial.print("Stop\n");
+            switch_lane(); 
+            stop_count = 0;
           }
         }
-        else if (central_distance <= 1000)
+        else stop_count = 0; // reset stop counter
+
+        // Detect Light
+        light_update_signal();
+        if (Left_Light == 0 || Right_Light == 0) 
         {
-          Base_Speed = 67;
-          //Serial.print("Normal\n");
+          stop_movement();
+          Mode = 1;
+          return ;
         }
         
-        timer1 = millis();
-        move_front(Base_Speed);
+        Timer2 = millis();
       }
 
-      /*
-      if ((millis() - timer3) >= 1000)
-      {
-        exit_function = true;
-        ...
-      }
-      */
+      // Line Following
+      line_update_signal();
       
-      Central       = digitalRead(Central_Line_Sensor);
-      Central_Left  = digitalRead(Central_Left_Line_Sensor);
-      Central_Right = digitalRead(Central_Right_Line_Sensor);
-      Outer_Left    = digitalRead(Left_Line_Sensor);
-      Outer_Right   = digitalRead(Right_Line_Sensor);
-      
-      if(Central == 1) { move_front(Base_Speed); }
+      if (Central == 1) { move_front(Base_Speed); }
       else
       {
         if ((Outer_Left == 1) && (Outer_Right == 0))
@@ -78,42 +72,43 @@ void line_following()
           right_turn(Default_Turning_Speed, 0);
           //right_forward(Default_Turning_Speed,0);
         }
-        else
-        {
-          //move_back(Default_Turning_Speed, 30); 
-          //turn(1, 45, -1);
-          
-          /*
-          Serial.print("CL: ");
-          Serial.print(Central_Left);
-          Serial.print(" CC: ");
-          Serial.print(Central);
-          Serial.print("CR: ");
-          Serial.print(Central_Right);
-          Serial.print("L: ");
-          Serial.print(Outer_Left);
-          Serial.print("R: ");
-          Serial.print(Outer_Right);
-          Serial.print("\n");
-          */
-        }
       }
     }
 }
 
 void switch_lane()
 {
-  if (lane == 0)  // inner
+  if (Lane == 0)  // inner
   {
-    turn(0, 175, -1);
-    lane = 1;
+    turn(0, 225, -1);
+    Lane = 1;
   }
-  else if (lane == 1) // outter
+  else // outter
   {
-    turn(1, 175, -1);
-    lane = 0;
+    turn(1, 225, -1);
+    Lane = 0;
   }
    
    move_front(Base_Speed);
    delay(150);
 }
+
+/*
+ * enter case: both ouuter left and right
+void enter_line() // perpendicular to the line
+{
+  move_front_with_detection(Base_Speed, 2);  // 400 ms * 2
+
+  int dir = random(2);
+  
+  while (true) 
+  { 
+    turn(dir,0, 160); // rotate 360 degree at speed 120
+    if (on_the_line()) 
+    { 
+      stop_movement(); 
+      break; 
+    }
+  }
+}
+*/

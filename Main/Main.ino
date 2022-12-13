@@ -4,21 +4,25 @@ Ruoling Yu 500976267
 Xinyu Ma 500943173
 */
 
-#define Safety_Distance 40
-#define Minimum_Distance 25
 // 350 ms for ~90 degrees with speed 200, new batt
-int Base_Speed = 65;
+#define Safety_Distance 50
+#define Minimum_Distance 20
+#define Default_Speed 60
+#define Slow_Speed 50
+
+int Base_Speed = Default_Speed;
 int Default_Turning_Speed = 200;
-long timer1, timer2;
+long Timer1, Timer2, Timer3;
 
-int lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
-int mode = 0; // 0: line-following, default; 1: parking
-long central_distance;
+int Lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
+int Mode = 0; // 0: line-following, default; 1: follow the light; 2: parking
+int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distance, Left_Light, Right_Light;
 
-//18 A4
-//19 A5
+
 //15 A1
 //16 A2   
+//18 A4
+//19 A5
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
 #define Left_Motor_PWM 5
@@ -44,8 +48,8 @@ long central_distance;
 SR04 central_sr04 = SR04(Central_Ultrasonic_Send, Central_Ultrasonic_Receive);
 
 // light sensor
-//#define Left_Light_Sensor 15  // A1
-//#define Right_Light_Sensor 16 // A2
+#define Left_Light_Sensor 15  // A1
+#define Right_Light_Sensor 16 // A2
 
 // servo
 #include <Servo.h>
@@ -65,9 +69,9 @@ void setup()
   pinMode(Right_Motor_PWM, OUTPUT);
 
   // edge sensor
-  pinMode(Front_Left_Edge_Sensor, INPUT);
-  pinMode(Front_Right_Edge_Sensor, INPUT);
-  pinMode(Back_Edge_Sensor, INPUT);
+  //pinMode(Front_Left_Edge_Sensor, INPUT);
+  //pinMode(Front_Right_Edge_Sensor, INPUT);
+  //pinMode(Back_Edge_Sensor, INPUT);
   
   // line tracking sensor
   pinMode(Central_Left_Line_Sensor, INPUT);
@@ -77,8 +81,8 @@ void setup()
   pinMode(Right_Line_Sensor, INPUT);
   
   // light sensor
-  //pinMode(Left_Light_Sensor, INPUT);
-  //pinMode(Right_Light_Sensor, INPUT);
+  pinMode(Left_Light_Sensor, INPUT);
+  pinMode(Right_Light_Sensor, INPUT);
   
   // servo
   servo_init();
@@ -87,28 +91,10 @@ void setup()
   //motor_speed_adjust();
 }
 
+
 void loop()
 {
-  if (!mode) line_following();
+  if (Mode == 0) line_following();
+  else if (Mode == 1) light_following();
   else parking();
-  
-}
-
-
-void enter_line() // perpendicular to the line
-{
-  move_front_with_detection(Base_Speed, 2);  // 400 ms * 2
-
-  int dir = random(2);
-  
-  while (true) 
-  { 
-    turn(dir,0, 160); // rotate 360 degree at speed 120
-    if (on_the_line()) 
-    { 
-      stop_movement(); 
-      break; 
-    }
-  }
-  
 }
