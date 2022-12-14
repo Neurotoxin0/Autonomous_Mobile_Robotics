@@ -13,6 +13,6 @@ void light_following()
   else
   {
     adjust_speed();
-    move_front(Base_Speed);
+    move_front(Base_Speed, false);
   }
 }

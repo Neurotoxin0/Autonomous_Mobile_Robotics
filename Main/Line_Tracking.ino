@@ -1,20 +1,18 @@
-int stop_count;
-
 void line_following()
 {
     Timer1 = millis();
     Timer2 = millis();
     //Timer3 = millis();
-    stop_count = 0;
+    int stop_count = 0;
 
     while (Mode == 0)
     { 
-      // Obj Detection
+      // Obj detection
       if ((millis() - Timer1) >= 1200)
       {
         stop_movement();
         adjust_speed();
-        move_front(Base_Speed);
+        move_front(Base_Speed, false);
         Timer1 = millis();
       }
 
@@ -24,7 +22,7 @@ void line_following()
         // Switch lane
         if (Base_Speed == 0)
         {
-          if (stop_count < 5) stop_count ++;
+          if (stop_count < 2) stop_count ++;
           else 
           {
             switch_lane(); 
@@ -48,7 +46,7 @@ void line_following()
       // Line Following
       line_update_signal();
       
-      if (Central == 1) { move_front(Base_Speed); }
+      if (Central == 1) { move_front(Base_Speed, false); }
       else
       {
         if ((Outer_Left == 1) && (Outer_Right == 0))
@@ -80,16 +78,16 @@ void switch_lane()
 {
   if (Lane == 0)  // inner
   {
-    turn(0, 225, -1);
+    turn(0, 275, -1);
     Lane = 1;
   }
   else // outter
   {
-    turn(1, 225, -1);
+    turn(1, 275, -1);
     Lane = 0;
   }
    
-   move_front(Base_Speed);
+   move_front(Base_Speed, false);
    delay(150);
 }
 

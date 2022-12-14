@@ -47,7 +47,7 @@ void ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR to
 }
 
 
-// Line Sensor
+// IR Sensor
 void line_update_signal()
 {
   Central       = digitalRead(Central_Line_Sensor);
@@ -55,6 +55,12 @@ void line_update_signal()
   Central_Right = digitalRead(Central_Right_Line_Sensor);
   Outer_Left    = digitalRead(Left_Line_Sensor);
   Outer_Right   = digitalRead(Right_Line_Sensor);
+}
+
+void back_update_signal()
+{
+  Back_Collision = digitalRead(Back_IR_Sensor);
+  Back_Right_Collision = digitalRead(Back_Right_IR_Sensor);
 }
 
 
