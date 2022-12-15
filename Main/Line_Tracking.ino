@@ -7,6 +7,10 @@ void line_following()
 
     while (Mode == 0)
     { 
+      // Light detection
+      light_detect();
+      
+      
       // Obj detection
       if ((millis() - Timer1) >= 1200)
       {
@@ -16,7 +20,7 @@ void line_following()
         Timer1 = millis();
       }
 
-      // Switch Lane & Detect Light
+      // Switch Lane
       if ((millis() - Timer2) >= 800)
       {
         // Switch lane
@@ -30,15 +34,6 @@ void line_following()
           }
         }
         else stop_count = 0; // reset stop counter
-
-        // Detect Light
-        light_update_signal();
-        if (Left_Light == 0 || Right_Light == 0) 
-        {
-          stop_movement();
-          Mode = 1;
-          return ;
-        }
         
         Timer2 = millis();
       }
@@ -49,6 +44,16 @@ void line_following()
       if (Central == 1) { move_front(Base_Speed, false); }
       else
       {
+         if (Outer_Left == 1 || Central_Left == 1)
+         {
+          left_turn(Default_Turning_Speed, 0);
+         }
+         else if (Outer_Right == 1 || Central_Right == 1)
+         {
+          right_turn(Default_Turning_Speed, 0);
+         }
+        
+        /*
         if ((Outer_Left == 1) && (Outer_Right == 0))
         {
           left_turn(Default_Turning_Speed, 0);
@@ -70,25 +75,28 @@ void line_following()
           right_turn(Default_Turning_Speed, 0);
           //right_forward(Default_Turning_Speed,0);
         }
+        */
       }
     }
 }
 
 void switch_lane()
 {
+  move_back(80, 250, false);
+  
   if (Lane == 0)  // inner
   {
-    turn(0, 275, -1);
+    turn(0, 250, -1);
     Lane = 1;
   }
   else // outter
   {
-    turn(1, 275, -1);
+    turn(1, 200 + 15 * Battery_Ratio, -1);
     Lane = 0;
   }
-   
+   adjust_speed();
    move_front(Base_Speed, false);
-   delay(150);
+   delay(150 + 100 * Battery_Ratio);
 }
 
 /*

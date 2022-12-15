@@ -5,6 +5,7 @@ Xinyu Ma 500943173
 */
 
 // 350 ms for ~90 degrees with speed 200, new batt
+#define Battery_Ratio 1
 #define Safety_Distance 50
 #define Minimum_Distance 20
 #define Default_Speed 60
@@ -85,7 +86,7 @@ void setup()
   servo_init();
 
   // Debug
-  set_mode(2);
+  //set_mode(2);
 }
 
 
@@ -94,7 +95,10 @@ void loop()
   if (Mode == 0) line_following();
   else if (Mode == 1) light_following();
   else if (Mode == 2) parking();
-  else exit(0);  
+  else exit(0);
+  
+
+   //Serial.print(digitalRead(Left_Light_Sensor));
 }
 
 void set_mode(int mode) { Mode = mode; }

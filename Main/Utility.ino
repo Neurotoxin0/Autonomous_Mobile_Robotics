@@ -63,10 +63,15 @@ void back_update_signal()
   Back_Right_Collision = digitalRead(Back_Right_IR_Sensor);
 }
 
+void front_update_signal()
+{
+  Outer_Left    = digitalRead(Left_Line_Sensor);
+  Outer_Right   = digitalRead(Right_Line_Sensor);
+}
 
 // Light Sensor
 void light_update_signal()
 {
   Left_Light = digitalRead(Left_Light_Sensor);
-  Right_Light = digitalRead(Right_Light_Sensor);
+  //Right_Light = digitalRead(Right_Light_Sensor);
 }
