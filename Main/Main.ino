@@ -17,7 +17,7 @@ long Timer1, Timer2, Timer3;
 
 int Lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
 int Mode = 0; // 0: line-following, default; 1: follow the light; 2: parking; 3: done parking
-int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distance, Right_Distance, Back_Collision, Back_Right_Collision, Left_Light, Right_Light;
+int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distance, Left_Distance, Right_Distance, Back_Collision, Back_Right_Collision, Left_Light, Right_Light;
 
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
@@ -38,22 +38,24 @@ int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distanc
 
 // ultrasonic sensor
 #include "SR04.h"
-#define Central_Ultrasonic_Receive 12
-#define Central_Ultrasonic_Send 13
+#define Central_Ultrasonic_Receive 15 // A1
+#define Central_Ultrasonic_Send 16 // A2
+#define Left_Ultrasonic_Receive 12
+#define Left_Ultrasonic_Send 13
 #define Right_Ultrasonic_Receive 18 // A4
 #define Right_Ultrasonic_Send 19 // A5
 SR04 central_sr04 = SR04(Central_Ultrasonic_Send, Central_Ultrasonic_Receive);
+SR04 left_sr04 = SR04(Left_Ultrasonic_Send, Left_Ultrasonic_Receive);
 SR04 right_sr04 = SR04(Right_Ultrasonic_Send, Right_Ultrasonic_Receive);
 
 
 // light sensor
-#define Left_Light_Sensor 15  // A1
-#define Right_Light_Sensor 16 // A2
+#define Left_Light_Sensor 9
 
 // servo
-#include <Servo.h>
-#define Servo_Pin 9
-Servo servo;
+//#include <Servo.h>
+//#define Servo_Pin 9
+//Servo servo;
 
 
 void setup() 
@@ -80,22 +82,28 @@ void setup()
   
   // light sensor
   pinMode(Left_Light_Sensor, INPUT);
-  pinMode(Right_Light_Sensor, INPUT);
   
   // servo
-  servo_init();
+  //servo_init();
 
   // Debug
-  //set_mode(2);
+  set_mode(2);
 }
 
 
 void loop()
 {
+  
   if (Mode == 0) { lane_following(); }
   else if (Mode == 1) { light_following(); }
-  else if (Mode == 2) { pre_parking(); parking(); }
+  else if (Mode == 2) 
+  { 
+    //pre_parking(); 
+    parking(); 
+  }
   else exit(0);
+
+  
   
 
    //Serial.print(digitalRead(Left_Light_Sensor));

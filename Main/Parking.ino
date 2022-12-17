@@ -1,17 +1,67 @@
 void pre_parking()
 {
     front_update_signal();
-    
-    if (Outer_Left == 0 && Outer_Right == 0)
+
+    if (Lane == 0)
+    {
+      while (true)
+      {
+        if (Outer_Left == 0 && Outer_Right == 0)
+        {
+          move_front(random(45,50), false);
+          delay(100);
+          stop_movement();
+        }
+          else if (Outer_Left == 1 && Outer_Right == 0)
+        {
+          turn(0,25, 120);
+        }
+        else if (Outer_Left == 0 && Outer_Right == 1)
+        {
+          turn(1,25, 120);
+        }
+        else
+        {
+          stop_movement();
+          return ;
+        }
+      }
+    }
+    else
+    {
+      while (true)
+      {
+        if (Outer_Left == 0 && Outer_Right == 0)
+        {
+          move_back(random(45,50), 100, false);
+        }
+          else if (Outer_Left == 1 && Outer_Right == 0)
+        {
+          turn(0,25, 120);
+        }
+        else if (Outer_Left == 0 && Outer_Right == 1)
+        {
+          turn(1,25, 120);
+        }
+        else
+        {
+          stop_movement();
+          return ;
+        }
+      }
+    }
+
+    /*
+    if (Outer_Left == 1 && Outer_Right == 1)
     {
       stop_movement();
       return ;
     }
-    else if (Outer_Left == 0)
+    else if (Outer_Left == 1)
     {
       turn(0,25, 120);
     }
-    else if (Outer_Right == 0)
+    else if (Outer_Right == 1)
     {
       turn(1,25, 120);
     }
@@ -19,15 +69,16 @@ void pre_parking()
     {
       if (Lane == 0)
       {
-        move_front(random(40,45), false);
+        move_front(random(45,50), false);
         delay(100);
         stop_movement();
       }
       else
       {
-        move_back(random(40,45), 100, false);
+        move_back(random(45,50), 100, false);
       }
     }
+    */
 }
 
 void parking()
@@ -45,13 +96,13 @@ void parking()
     right_ultra_sonic_update_distance();
     if (Right_Distance >= 15 && !flag1) 
     {
-      if (count < 3) count ++;
+      if (count < 4) count ++;
       else flag1 = true;
     }
 
     // move front a bit
-    move_front(random(40,47) + 5 * Battery_Ratio, false);
-    delay(100 + 25 * Battery_Ratio);
+    move_front(45 + 5 * Battery_Ratio, false);
+    delay(150 + 50 * Battery_Ratio);
     stop_movement();
     
     if (flag1)
@@ -77,9 +128,9 @@ void parking_process1(int mode)
 
   if (mode == 1)  // go forward a bit
   {
-    //move_front(50 + 5 * Battery_Ratio, true);
-    //delay(200 + 100 * Battery_Ratio);
-    //stop_movement();
+    move_front(50 + 5 * Battery_Ratio, true);
+    delay(200 + 100 * Battery_Ratio);
+    stop_movement();
   }
   else move_back(80, 250 + 25 * Battery_Ratio, false); // backward a bit
   
@@ -118,7 +169,7 @@ void parking_process2(int mode)
     
       if (Front_Distance >= 10 + 2 * Battery_Ratio && Outer_Left == 0 && Outer_Right == 0) 
       {
-         move_front(random(40,45) + 5 * Battery_Ratio - 1, false);
+         move_front(45 + 5 * Battery_Ratio - 1, false);
          delay(100 + 25 * Battery_Ratio);
          stop_movement();
       }
@@ -135,7 +186,7 @@ void parking_process2(int mode)
        
        if (Outer_Left == 0 && Outer_Right == 0) 
        {
-          move_front(random(40,45) + 5 * Battery_Ratio - 1, false);
+          move_front(45 + 5 * Battery_Ratio - 1, false);
        }
       else
       { 

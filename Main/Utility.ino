@@ -23,7 +23,7 @@ void adjust_speed() // based on distance obtained by front ultra sonic
   }
 }
 
-
+/*
 // Servo
 void servo_init()
 {
@@ -39,12 +39,18 @@ void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
   servo.write(angle); 
   delay(500);
 }
+*/
 
 
 // Ultra Sonic
 void front_ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR too close(~0)
 { 
   Front_Distance = central_sr04.Distance();
+}
+
+void left_ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR too close(~0)
+{ 
+  Left_Distance = left_sr04.Distance();
 }
 
 void right_ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR too close(~0)

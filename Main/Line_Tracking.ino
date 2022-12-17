@@ -5,10 +5,10 @@ void lane_following()
     //Timer3 = millis();
     int stop_count = 0;
 
-    while (Mode == 1)
+    while (Mode == 0)
     { 
       // Light detection
-      //light_detect();
+      light_detect();
       
       // Obj detection
       if ((millis() - Timer1) >= 1200)
@@ -72,17 +72,16 @@ void switch_lane()
    
    while (true)
    {
-    if (Lane == 1) 
+    if (Lane == 0) 
     {
-      // use front ultra sonic sensor + servo to 180 degree
-      servo_to_angle(180);
-      front_ultra_sonic_update_distance();
+      // use left ultra sonic sensor
+      left_ultra_sonic_update_distance();
       
-      if (Front_Distance > Minimum_Distance)
+      if (Left_Distance > Minimum_Distance)
       {
-        turn(0, 250, -1);
-        front_ultra_sonic_update_distance();
-        if (Front_Distance > Minimum_Distance)
+        turn(0, 200 + 50 * Battery_Ratio, -1);
+        left_ultra_sonic_update_distance();
+        if (Left_Distance > Minimum_Distance)
         {
           flag = true;
           Lane = 1;
@@ -96,8 +95,8 @@ void switch_lane()
 
       if (Right_Distance > Minimum_Distance)
       {
-        turn(1, 200 + 15 * Battery_Ratio, -1);
-        front_ultra_sonic_update_distance();
+        turn(1, 200 + 50 * Battery_Ratio, -1);
+        right_ultra_sonic_update_distance();
         if (Right_Distance > Minimum_Distance)
         {
           flag = true;
@@ -112,7 +111,6 @@ void switch_lane()
       
       if (Outer_Left || Outer_Right ) 
       {
-        servo_to_angle(90);
         delay(250);
         stop_movement();
         return;
