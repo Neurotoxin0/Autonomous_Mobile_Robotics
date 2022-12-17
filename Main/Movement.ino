@@ -94,3 +94,8 @@ void turn(int direction, int time, int speed)
   if (! turning_direction)  { left_turn(turning_speed, turning_time); }
   else                      { right_turn(turning_speed, turning_time); }
 }
+
+void u_turn() 
+{
+  turn(1, 1500, Default_Turning_Speed);
+}

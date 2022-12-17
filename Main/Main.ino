@@ -8,14 +8,14 @@ Xinyu Ma 500943173
 #define Battery_Ratio 1
 #define Safety_Distance 40
 #define Minimum_Distance 20
-#define Default_Speed 60
-#define Slow_Speed 45
+#define Default_Speed 50
+#define Slow_Speed 40
+#define Default_Turning_Speed 150
 
 int Base_Speed = Default_Speed;
-int Default_Turning_Speed = 150;
 long Timer1, Timer2, Timer3;
 
-int Lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
+int Lane = 1; // 0: inner, default; 1: outter; -1: exit line following 
 int Mode = 0; // 0: line-following, default; 1: follow the light; 2: parking; 3: done parking
 int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distance, Left_Distance, Right_Distance, Back_Collision, Back_Right_Collision, Left_Light, Right_Light;
 
@@ -87,26 +87,17 @@ void setup()
   //servo_init();
 
   // Debug
-  set_mode(2);
+  //set_mode(2);
 }
 
 
 void loop()
 {
-  
-  if (Mode == 0) { lane_following(); }
-  else if (Mode == 1) { light_following(); }
-  else if (Mode == 2) 
-  { 
-    //pre_parking(); 
-    parking(); 
-  }
+  if (Mode == 0) lane_following();
+  else if (Mode == 1) pre_parking();
+  else if (Mode == 2) parking(); 
   else exit(0);
-
   
-  
-
-   //Serial.print(digitalRead(Left_Light_Sensor));
 }
 
 void set_mode(int mode) { Mode = mode; }

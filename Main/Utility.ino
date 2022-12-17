@@ -70,6 +70,13 @@ void line_update_signal()
   Outer_Right   = digitalRead(Right_Line_Sensor);
 }
 
+void bottom_update_signal()
+{
+  Central       = digitalRead(Central_Line_Sensor);
+  Central_Left  = digitalRead(Central_Left_Line_Sensor);
+  Central_Right = digitalRead(Central_Right_Line_Sensor);
+}
+
 void back_update_signal()
 {
   Back_Collision = digitalRead(Back_IR_Sensor);

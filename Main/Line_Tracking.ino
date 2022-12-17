@@ -9,6 +9,7 @@ void lane_following()
     { 
       // Light detection
       light_detect();
+      if (Mode != 0) { stop_movement(); return ; }
       
       // Obj detection
       if ((millis() - Timer1) >= 1200)
@@ -65,9 +66,11 @@ void line_following()
   }
 }
 
-bool flag = false;
+#define switch_lane_ratio 0
 void switch_lane()
 {
+   bool flag = false;
+   
    move_back(80, 250, false);
    
    while (true)
@@ -79,7 +82,7 @@ void switch_lane()
       
       if (Left_Distance > Minimum_Distance)
       {
-        turn(0, 200 + 50 * Battery_Ratio, -1);
+        turn(0, 200 + 50 * switch_lane_ratio, -1);
         left_ultra_sonic_update_distance();
         if (Left_Distance > Minimum_Distance)
         {
@@ -95,7 +98,7 @@ void switch_lane()
 
       if (Right_Distance > Minimum_Distance)
       {
-        turn(1, 200 + 50 * Battery_Ratio, -1);
+        turn(1, 200 + 50 * switch_lane_ratio, -1);
         right_ultra_sonic_update_distance();
         if (Right_Distance > Minimum_Distance)
         {
@@ -107,11 +110,11 @@ void switch_lane()
     
     while (flag)
     {
-      front_update_signal();
+      bottom_update_signal();
       
-      if (Outer_Left || Outer_Right ) 
+      if (Central == 1 || Central_Right == 1 || Central_Right == 1) 
       {
-        delay(250);
+        delay(50);
         stop_movement();
         return;
       }
@@ -119,23 +122,3 @@ void switch_lane()
     }
   }
 }
-
-/*
- * enter case: both ouuter left and right
-void enter_line() // perpendicular to the line
-{
-  move_front_with_detection(Base_Speed, 2);  // 400 ms * 2
-
-  int dir = random(2);
-  
-  while (true) 
-  { 
-    turn(dir,0, 160); // rotate 360 degree at speed 120
-    if (on_the_line()) 
-    { 
-      stop_movement(); 
-      break; 
-    }
-  }
-}
-*/
