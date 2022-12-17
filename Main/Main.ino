@@ -6,10 +6,10 @@ Xinyu Ma 500943173
 
 // 350 ms for ~90 degrees with speed 200, new batt
 #define Battery_Ratio 1
-#define Safety_Distance 50
+#define Safety_Distance 40
 #define Minimum_Distance 20
 #define Default_Speed 60
-#define Slow_Speed 50
+#define Slow_Speed 45
 
 int Base_Speed = Default_Speed;
 int Default_Turning_Speed = 150;
@@ -17,12 +17,8 @@ long Timer1, Timer2, Timer3;
 
 int Lane = 0; // 0: inner, default; 1: outter; -1: exit line following 
 int Mode = 0; // 0: line-following, default; 1: follow the light; 2: parking; 3: done parking
-int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distance, Back_Collision, Back_Right_Collision, Left_Light, Right_Light;
+int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distance, Right_Distance, Back_Collision, Back_Right_Collision, Left_Light, Right_Light;
 
-
-
-//18 A4
-//19 A5
 // motor control and pwn pins
 #define Left_Motor_Ctrl 4
 #define Left_Motor_PWM 5
@@ -44,7 +40,11 @@ int Central, Central_Left, Central_Right, Outer_Left, Outer_Right, Front_Distanc
 #include "SR04.h"
 #define Central_Ultrasonic_Receive 12
 #define Central_Ultrasonic_Send 13
+#define Right_Ultrasonic_Receive 18 // A4
+#define Right_Ultrasonic_Send 19 // A5
 SR04 central_sr04 = SR04(Central_Ultrasonic_Send, Central_Ultrasonic_Receive);
+SR04 right_sr04 = SR04(Right_Ultrasonic_Send, Right_Ultrasonic_Receive);
+
 
 // light sensor
 #define Left_Light_Sensor 15  // A1
@@ -92,9 +92,9 @@ void setup()
 
 void loop()
 {
-  if (Mode == 0) line_following();
-  else if (Mode == 1) light_following();
-  else if (Mode == 2) parking();
+  if (Mode == 0) { lane_following(); }
+  else if (Mode == 1) { light_following(); }
+  else if (Mode == 2) { pre_parking(); parking(); }
   else exit(0);
   
 

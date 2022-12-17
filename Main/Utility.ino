@@ -1,13 +1,13 @@
 // Motor
 void adjust_speed() // based on distance obtained by front ultra sonic
 {
-  ultra_sonic_update_distance();
+  front_ultra_sonic_update_distance();
 
   if (Front_Distance <= Safety_Distance)
   {
     if (Front_Distance > Minimum_Distance)  // slow speed
     {
-      Base_Speed = 45;
+      Base_Speed = Slow_Speed;
       //Serial.print("Slow Down\n");
     }
     else                                      // stop
@@ -18,10 +18,11 @@ void adjust_speed() // based on distance obtained by front ultra sonic
   }
   else if (Front_Distance <= 1000)          // normal speed
   {
-    Base_Speed = 60;
+    Base_Speed = Default_Speed;
     //Serial.print("Normal\n"); 
   }
 }
+
 
 // Servo
 void servo_init()
@@ -41,10 +42,16 @@ void servo_to_angle(int angle)  // params: angle: 0 < x < 180; 0 = left side
 
 
 // Ultra Sonic
-void ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR too close(~0)
+void front_ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR too close(~0)
 { 
   Front_Distance = central_sr04.Distance();
 }
+
+void right_ultra_sonic_update_distance()  // if distance > 1180 -> either to far OR too close(~0)
+{ 
+  Right_Distance = right_sr04.Distance();
+}
+
 
 
 // IR Sensor
